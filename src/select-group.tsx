@@ -18,7 +18,7 @@ export const useSelectAttribute = (attribute: string, multiple?: boolean): Selec
     props: {
       id: attribute,
       name: attribute,
-      value: formContext.getAttribute(attribute),
+      value: formContext.getAttribute(attribute, multiple ? [] : ""),
       multiple,
       onChange: ({ target: { value, selectedOptions } }) => {
         formContext.setAttribute(attribute, multiple ? filterOptions(selectedOptions) : value);
