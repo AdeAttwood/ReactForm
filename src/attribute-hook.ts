@@ -1,3 +1,6 @@
+/**
+ * The common type for the return type and render children props.
+ */
 export type AttributeHook<T> = {
   /**
    * An error on the attribute if there is one
