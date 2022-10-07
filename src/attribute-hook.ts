@@ -23,6 +23,21 @@ export type AttributeHook<T> = {
      * The current value of the input.
      */
     value?: string | undefined;
+    /**
+     * The type of the input. This will only be set if there can only be one
+     * value. Like on `useCheckboxAttribute` this can only be `checkbox`
+     * however on `useTextAttribute` there can be different types this is up to
+     * the developer to set.
+     */
+    type?: string;
+    /**
+     * If the attribute is checked or not. Only available when the type is
+     * radio or checkbox
+     */
+    checked?: boolean;
+    /**
+     * True if this input will take multiple values.
+     */
     multiple?: boolean;
     /**
      * The on change callback that will update the value in the form state
