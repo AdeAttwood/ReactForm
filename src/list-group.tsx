@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { useFormContext } from "./form-context";
-import { AttributeContext, useAttributeContext } from "./attribute-context";
+import { AttributeContextProvider, useAttributeContext } from "./attribute-context";
+import { BaseGroupProps } from "./base-group-props";
 
 export interface ListGroupChildProps {
   /**
@@ -10,20 +11,12 @@ export interface ListGroupChildProps {
   add: () => void;
 }
 
-export interface ListGroupProps {
-  /**
-   * The attribute this input is for
-   */
-  attribute: string;
+export interface ListGroupProps extends BaseGroupProps<ListGroupChildProps> {
   /**
    * Function that will return a new empty item. This will be called whenever
    * added a new item to the list. The default will return a new empty object.
    */
   newItem?: () => any;
-  /**
-   * Render a list of inputs
-   */
-  children: (props: ListGroupChildProps) => JSX.Element;
 }
 
 export const ListGroup: FC<ListGroupProps> = ({ children, attribute, newItem }) => {
@@ -38,7 +31,7 @@ export const ListGroup: FC<ListGroupProps> = ({ children, attribute, newItem }) 
     setAttribute(attribute, [...getAttribute(attribute, []), newItem()]);
   };
 
-  return <AttributeContext.Provider value={{ attribute, options }}>{children({ add })}</AttributeContext.Provider>;
+  return React.createElement(AttributeContextProvider, { attribute, options }, children({ add }));
 };
 
 ListGroup.defaultProps = {

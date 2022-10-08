@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { useFormContext } from "./form-context";
 import { AttributeHook } from "./attribute-hook";
+import { BaseGroupProps } from "./base-group-props";
 
 export type TextAttributeHook = AttributeHook<HTMLInputElement>;
 
@@ -24,18 +25,6 @@ export const useTextAttribute = (attribute: string): TextAttributeHook => {
   };
 };
 
-export interface InputGroupProps {
-  /**
-   * The attribute this input is for
-   */
-  attribute: string;
-  /**
-   * Render prop that will take all of data to render an input for the
-   * attribute
-   */
-  children: (params: TextAttributeHook) => JSX.Element;
-}
-
 /**
  * Input group component that is a wrapper for the `useTextAttribute` hook so
  * you don't have to create a new component for each input
@@ -51,7 +40,7 @@ export interface InputGroupProps {
  *  )}
  *</InputGroup>
  */
-export const InputGroup: FC<InputGroupProps> = ({ children, attribute }) => {
+export const InputGroup: FC<BaseGroupProps<TextAttributeHook>> = ({ children, attribute }) => {
   return children(useTextAttribute(attribute));
 };
 

@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { AttributeHook } from "./attribute-hook";
+import { BaseGroupProps } from "./base-group-props";
 import { useFormContext } from "./form-context";
 
 export type SelectAttributeHook = AttributeHook<HTMLSelectElement>;
@@ -27,22 +28,13 @@ export const useSelectAttribute = (attribute: string, multiple?: boolean): Selec
   };
 };
 
-export interface SelectGroupProps {
-  /**
-   * The attribute this input is for
-   */
-  attribute: string;
+export interface SelectGroupProps extends BaseGroupProps<SelectAttributeHook> {
   /**
    * If the select input can handel multiple options being selected
    *
    * @default false
    */
   multiple?: boolean;
-  /**
-   * Render prop that will take all of data to render an input for the
-   * attribute
-   */
-  children: (params: SelectAttributeHook) => JSX.Element;
 }
 
 export const SelectGroup: FC<SelectGroupProps> = ({ children, attribute, multiple }) => {
