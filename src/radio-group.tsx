@@ -41,7 +41,7 @@ export const RadioGroup: FC<RadioGroupProps> = ({ children, attribute, options }
 };
 
 export interface RadioOptionProps {
-  children: (props: RadioAttributeHook & {label: string;}) => any;
+  children: (props: RadioAttributeHook & { label: string }) => any;
 }
 
 export const RadioOption: FC<RadioOptionProps> = ({ children }) => {

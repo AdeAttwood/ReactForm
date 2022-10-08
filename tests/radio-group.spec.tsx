@@ -35,11 +35,11 @@ it("will render and submit with a radio list", async () => {
   await userEvent.click(getByText("Submit"));
 
   expect(onSubmit).toBeCalledTimes(1);
-  expect(onSubmit).toBeCalledWith({ formState: { pickOne: 'one' } });
+  expect(onSubmit).toBeCalledWith({ formState: { pickOne: "one" } });
 
   await userEvent.click(getByLabelText("Two"));
   await userEvent.click(getByText("Submit"));
 
   expect(onSubmit).toBeCalledTimes(2);
-  expect(onSubmit).toBeCalledWith({ formState: { pickOne: 'two' } });
+  expect(onSubmit).toBeCalledWith({ formState: { pickOne: "two" } });
 });
