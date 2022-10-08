@@ -26,7 +26,9 @@ it("will render and submit with a radio list", async () => {
                 </div>
               )}
             </ListOption>
-            <button type="button" onClick={add}>Add Tag</button>
+            <button type="button" onClick={add}>
+              Add Tag
+            </button>
           </div>
         )}
       </ListGroup>

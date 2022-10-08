@@ -10,7 +10,7 @@ export type AttributeContextType<T> = {
    * requests multiple options
    */
   options: T[];
-}
+};
 
 /**
  * Create the base context that will hold all of the form data
