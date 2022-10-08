@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { useFormContext } from "./form-context";
 import { AttributeHook } from "./attribute-hook";
+import { BaseGroupProps } from "./base-group-props";
 
 export type CheckAttributeHook = AttributeHook<HTMLInputElement>;
 
@@ -33,7 +34,7 @@ export interface CheckGroupProps {
   children: (params: CheckAttributeHook) => JSX.Element;
 }
 
-export const CheckGroup: FC<CheckGroupProps> = ({ children, attribute }) => {
+export const CheckGroup: FC<BaseGroupProps<CheckAttributeHook>> = ({ children, attribute }) => {
   return children(useCheckboxAttribute(attribute));
 };
 

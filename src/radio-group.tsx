@@ -1,7 +1,8 @@
 import React, { FC } from "react";
 import { useFormContext } from "./form-context";
-import { AttributeContext, useAttributeContext } from "./attribute-context";
+import { AttributeContextProvider, useAttributeContext } from "./attribute-context";
 import { AttributeHook } from "./attribute-hook";
+import { BaseGroupProps } from "./base-group-props";
 
 export type RadioAttributeHook = AttributeHook<HTMLInputElement>;
 
@@ -18,26 +19,18 @@ export interface OptionType {
   value: string;
 }
 
-export interface RadioGroupProps {
-  /**
-   * The attribute this input is for
-   */
-  attribute: string;
+export interface RadioGroupProps extends BaseGroupProps<{ error: string }> {
   /**
    * The options for this input
    */
   options: OptionType[];
-  /**
-   * The child element for this component
-   */
-  children: (props: { error: string }) => React.ReactNode;
 }
 
 export const RadioGroup: FC<RadioGroupProps> = ({ children, attribute, options }) => {
   const formContext = useFormContext();
   const error = formContext.firstError(attribute);
 
-  return <AttributeContext.Provider value={{ attribute, options }}>{children({ error })}</AttributeContext.Provider>;
+  return React.createElement(AttributeContextProvider, { attribute, options }, children({ error }));
 };
 
 export interface RadioOptionProps {

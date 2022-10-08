@@ -17,6 +17,13 @@ export type AttributeContextType<T> = {
  */
 export const AttributeContext = React.createContext<AttributeContextType<any>>({} as any);
 
+export type AttributeContextProviderProps<T> = AttributeContextType<T> & React.PropsWithChildren;
+
+export function AttributeContextProvider<T>(props: AttributeContextProviderProps<T>) {
+  const { children, ...value } = props;
+  return React.createElement(AttributeContext.Provider, { value }, children);
+}
+
 /**
  * Hook so that you can access the form data
  */
