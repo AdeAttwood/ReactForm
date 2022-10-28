@@ -24,11 +24,11 @@ it("will render and submit with a checkbox attribute", async () => {
   await userEvent.click(getByText("Submit"));
 
   expect(onSubmit).toBeCalledTimes(1);
-  expect(onSubmit).toBeCalledWith({ formState: { checkMe: true } });
+  expect(onSubmit).toBeCalledWith(expect.objectContaining({ formState: { checkMe: true } }));
 
   await userEvent.click(getByLabelText("Check"));
   await userEvent.click(getByText("Submit"));
 
   expect(onSubmit).toBeCalledTimes(2);
-  expect(onSubmit).toBeCalledWith({ formState: { checkMe: false } });
+  expect(onSubmit).toBeCalledWith(expect.objectContaining({ formState: { checkMe: false } }));
 });
