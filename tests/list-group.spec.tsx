@@ -40,18 +40,18 @@ it("will render and submit with a radio list", async () => {
   await userEvent.click(getByText("Submit"));
 
   expect(onSubmit).toBeCalledTimes(1);
-  expect(onSubmit).toBeCalledWith({ formState: { tags: [""] } });
+  expect(onSubmit).toBeCalledWith(expect.objectContaining({ formState: { tags: [""] } }));
 
   await userEvent.type(getByLabelText("Tag 1"), "Tag One");
   await userEvent.click(getByText("Submit"));
 
   expect(onSubmit).toBeCalledTimes(2);
-  expect(onSubmit).toBeCalledWith({ formState: { tags: ["Tag One"] } });
+  expect(onSubmit).toBeCalledWith(expect.objectContaining({ formState: { tags: ["Tag One"] } }));
 
   await userEvent.click(getByText("Add Tag"));
   await userEvent.type(getByLabelText("Tag 2"), "Tag Two");
   await userEvent.click(getByText("Submit"));
 
   expect(onSubmit).toBeCalledTimes(3);
-  expect(onSubmit).toBeCalledWith({ formState: { tags: ["Tag One", "Tag Two"] } });
+  expect(onSubmit).toBeCalledWith(expect.objectContaining({ formState: { tags: ["Tag One", "Tag Two"] } }));
 });
