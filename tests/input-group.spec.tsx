@@ -1,25 +1,15 @@
 import React from "react";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, waitFor, act } from "@testing-library/react";
 import Form from "../src/form";
-import InputGroup from "../src/input-group";
-
-const Input = ({ attribute }: { attribute: string }) => (
-  <InputGroup attribute={attribute}>
-    {({ props }) => (
-      <div>
-        <label htmlFor={attribute}>{attribute}</label>
-        <input {...props} />
-      </div>
-    )}
-  </InputGroup>
-);
+import Input from "./input-component";
+import createValidator from "../src/validator";
 
 interface FormModel {
   input: string;
 }
 const initialValues: FormModel = { input: "" };
 
-it("will render and submit a form with one input", () => {
+it("will render and submit a form with one input", async () => {
   const onSubmit = jest.fn();
   const { getByLabelText, getByText } = render(
     <Form<FormModel> initialValues={initialValues} onSubmit={onSubmit}>
@@ -31,7 +21,7 @@ it("will render and submit a form with one input", () => {
   fireEvent.change(getByLabelText("password"), { target: { value: "My value" } });
   fireEvent.click(getByText("submit"));
 
-  expect(onSubmit).toBeCalledTimes(1);
+  await waitFor(() => expect(onSubmit).toBeCalledTimes(1));
   expect(onSubmit).toBeCalledWith(
     expect.objectContaining({
       formState: expect.objectContaining({ password: "My value" }),
@@ -39,7 +29,7 @@ it("will render and submit a form with one input", () => {
   );
 });
 
-it("will have a default value and submit", () => {
+it("will have a default value and submit", async () => {
   const onSubmit = jest.fn();
   const { getByText } = render(
     <Form initialValues={{ input: "Default" }} onSubmit={onSubmit}>
@@ -49,6 +39,7 @@ it("will have a default value and submit", () => {
   );
 
   fireEvent.click(getByText("submit"));
+  await waitFor(() => expect(onSubmit).toBeCalledTimes(1));
   expect(onSubmit).toBeCalledWith(
     expect.objectContaining({
       formState: { input: "Default" },
@@ -56,13 +47,13 @@ it("will have a default value and submit", () => {
   );
 });
 
-it("will validate on save and prevent submit", () => {
+it("will validate on save and prevent submit", async () => {
   const onSubmit = jest.fn();
   const { getByText } = render(
     <Form
       onSubmit={onSubmit}
       initialValues={initialValues}
-      rules={{
+      validator={createValidator({
         input: [
           ({ input }) => {
             if (!input || input.length === 0) {
@@ -72,13 +63,16 @@ it("will validate on save and prevent submit", () => {
             return "";
           },
         ],
-      }}
+      })}
     >
       <Input attribute="input" />
       <button>submit</button>
     </Form>
   );
 
-  fireEvent.click(getByText("submit"));
+  await act(async () => {
+    fireEvent.click(getByText("submit"));
+  });
+
   expect(onSubmit).toBeCalledTimes(0);
 });

@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Form from "../src/form";
 import SelectGroup from "../src/select-group";
@@ -50,7 +50,7 @@ it("will render and submit stuff", async () => {
   fireEvent.change(getByLabelText("Select"), { target: { value: "two" } });
   fireEvent.click(getByText("Submit"));
 
-  expect(onSubmit).toBeCalledTimes(1);
+  await waitFor(() => expect(onSubmit).toBeCalledTimes(1));
   expect(onSubmit).toBeCalledWith(
     expect.objectContaining({
       formState: expect.objectContaining({ selectMe: "two" }),
@@ -70,7 +70,7 @@ it("will render and submit multiple values", async () => {
   userEvent.selectOptions(getByLabelText("Select"), ["three"]);
   fireEvent.click(getByText("Submit"));
 
-  expect(onSubmit).toBeCalledTimes(1);
+  await waitFor(() => expect(onSubmit).toBeCalledTimes(1));
   expect(onSubmit).toBeCalledWith(
     expect.objectContaining({
       formState: expect.objectContaining({ selectMe: ["three"] }),

@@ -1,10 +1,8 @@
 import React from "react";
 import { FormContext } from "./form-context";
 
+import type { ErrorBag } from "./validator";
 import { get, set } from "./dot-notation";
-
-type ValidationOptions = { attribute: string; match?: any };
-type ValidationFunction<T> = (formState: T, options: ValidationOptions) => string;
 
 export interface FormProps<T extends {}> {
   /**
@@ -20,24 +18,21 @@ export interface FormProps<T extends {}> {
    */
   validateTimeout: number;
   /**
-   * Validation rules for the form state. This is a object keyed by the
-   * attribute name with an array or validation function. The validation
-   * function must return a string containing the error message, if the
-   * validation was not successful. If undefined or an empty string is return
-   * the attribute will be valid.
-   *
-   * @example
-   * {
-   *   userName: [
-   *     ({ userName }) => {
-   *       if (!userName) {
-   *         return "User name is required"
-   *       }
-   *     }
-   *   ],
-   * }
+   * The validator for validating the form state. A generic object that can be
+   * used to implement validation with our built in validator external schema
+   * validation library like zod or a stand alone custom function.
    */
-  rules?: { [key: string]: ValidationFunction<T>[] };
+  validator?: {
+    /**
+     * A validation function that will validate all of the date. This is
+     * typically called before the form is submitted.
+     */
+    validate: (data: T) => Promise<ErrorBag>;
+    /**
+     * Validates a single attribute. Usually when a input has changed
+     */
+    validateAttribute?: (attribute: string, data: T) => Promise<string[]>;
+  };
   /**
    * TODO(ade): Sort out this doc
    */
@@ -60,7 +55,7 @@ export interface FormState<T> {
    * A map of error that there are on any attributes. Will determine if the
    * form is valid or not.
    */
-  errors: { [key: string]: string[] };
+  errors: ErrorBag;
 }
 
 export class Form<T extends Record<string, any>> extends React.Component<FormProps<T>, FormState<T>> {
@@ -85,7 +80,6 @@ export class Form<T extends Record<string, any>> extends React.Component<FormPro
   public static defaultProps = {
     validateTimeout: 800,
     initialValues: {},
-    rules: {},
   };
 
   /**
@@ -110,10 +104,10 @@ export class Form<T extends Record<string, any>> extends React.Component<FormPro
    * This will validate the form and call the `onSubmit` props if there are no errors.
    * If the form is invalid then the state will be populated with the errors.
    */
-  submit = (event: React.SyntheticEvent) => {
+  submit = async (event: React.SyntheticEvent) => {
     event.preventDefault();
-    const { errors, hasErrors } = this.validate(this.state.formState);
-    if (hasErrors) {
+    const errors = await this.props.validator?.validate(this.state.formState);
+    if (errors && Object.keys(errors).length > 0) {
       return this.setState({ errors });
     }
 
@@ -140,11 +134,6 @@ export class Form<T extends Record<string, any>> extends React.Component<FormPro
 
     if (this.props.validateTimeout > 0) {
       this.queueValidation(attribute, this.props.validateTimeout);
-    } else {
-      const attributeErrors = this.validateAttribute(attribute, formState);
-      if (attributeErrors.length > 0) {
-        errors[attribute] = attributeErrors;
-      }
     }
 
     this.setState({ formState, errors });
@@ -182,11 +171,11 @@ export class Form<T extends Record<string, any>> extends React.Component<FormPro
    *
    * @see {this.attributesToValidate}
    */
-  validateTimeout = () => {
+  validateTimeout = async () => {
     const { formState, errors } = this.state;
 
     for (const attribute of this.attributesToValidate) {
-      const attributeErrors = this.validateAttribute(attribute, formState);
+      const attributeErrors = await this.validateAttribute(attribute, formState);
       if (attributeErrors.length > 0) {
         errors[attribute] = attributeErrors;
       }
@@ -197,61 +186,16 @@ export class Form<T extends Record<string, any>> extends React.Component<FormPro
   };
 
   /**
-   * Validate all of the `formState` against all of the validation rules defined
-   *
-   * @param {Object} formState
-   */
-  private validate = (formState: T) => {
-    const errors = {};
-    const hasErrorRef = { current: false };
-    this.validateInternal(formState, "", errors, hasErrorRef);
-
-    return { errors, hasErrors: hasErrorRef.current };
-  };
-
-  private validateInternal(
-    formState: Record<string, any>,
-    parent: string,
-    errors: Record<string, string>,
-    hasErrorRef: { current: boolean }
-  ) {
-    for (const key of Object.keys(formState)) {
-      const attribute = parent ? parent + "." + key : key;
-      if (typeof formState[key] == "object") {
-        this.validateInternal(formState[key], attribute, errors, hasErrorRef);
-        continue;
-      }
-
-      const attributeErrors = this.validateAttribute(attribute, this.state.formState);
-      if (attributeErrors.length) {
-        hasErrorRef.current = true;
-        Object.assign(errors, { [attribute]: attributeErrors });
-      }
-    }
-  }
-
-  /**
    * Validates a single attribute against any of the validation rules rules
    * defined
    */
-  validateAttribute = (attribute: string, formState: T): Array<string> => {
-    let rules: any = [];
-    for (const rule of Object.keys(this.props.rules as any)) {
-      const match = attribute.match(new RegExp(rule));
-      if (match) {
-        rules = rules.concat(this.props.rules?.[rule].map((callback: any) => [callback, { attribute, match }]));
-      }
+  validateAttribute = async (attribute: string, formState: T): Promise<string[]> => {
+    const fun = this.props.validator?.validateAttribute;
+    if (typeof fun === "undefined") {
+      return [];
     }
 
-    const errors = [];
-    for (const [rule, args] of rules) {
-      const error = rule(formState, args);
-      if (typeof error === "string" && error.length) {
-        errors.push(error);
-      }
-    }
-
-    return errors;
+    return await fun(attribute, formState);
   };
 
   /**
