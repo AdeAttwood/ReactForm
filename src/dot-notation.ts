@@ -9,12 +9,32 @@ type Notation = string | string[];
  */
 type ObjectType = Record<string, any> | undefined;
 
+type ObjectMatch = {
+  /**
+   * The resolved path to the matching value from the notation
+   */
+  path: string;
+  /**
+   * The end value that has been resolved
+   */
+  value: any;
+};
+
 /**
  * Get a value from a object from a dot notation
  */
 export function get(object: ObjectType, notation: Notation): any {
+  return getAll(object, notation)?.[0]?.value || undefined;
+}
+
+/**
+ * Gets all matching values from a notation. This supports json path style deep
+ * scan `users..name` for matching multiple items in an array of objects.
+ */
+export function getAll(object: ObjectType, notation: Notation): ObjectMatch[] {
+  let matches: any[] = [];
   if (typeof object === "undefined") {
-    return undefined;
+    return matches;
   }
 
   if (typeof notation === "string") {
@@ -22,13 +42,38 @@ export function get(object: ObjectType, notation: Notation): any {
   }
 
   for (let i = 0; i < notation.length; i++) {
-    object = object[notation[i]];
-    if (typeof object === "undefined") {
-      return object;
+    const currentNotation = notation[i];
+
+    if (currentNotation === "" && Array.isArray(object)) {
+      const subNotation = notation.slice(i + 1, notation.length);
+      const prefixNotation = notation.slice(0, i);
+      matches = matches.concat(
+        object
+          ?.map((item: any, index) => {
+            return getAll(item, subNotation)
+              .map(({ path, value }) => {
+                return {
+                  path: prefixNotation
+                    .concat([index.toString(), path])
+                    .filter((item) => item !== "")
+                    .join("."),
+                  value,
+                };
+              })
+              .flat();
+          })
+          .flat()
+      );
     }
+
+    object = object?.[currentNotation];
   }
 
-  return object;
+  if (!notation.includes("")) {
+    matches.push({ path: notation.join("."), value: object });
+  }
+
+  return matches;
 }
 
 /**

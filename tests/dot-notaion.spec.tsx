@@ -1,4 +1,4 @@
-import { get, set } from "../src/dot-notation";
+import { get, getAll, set } from "../src/dot-notation";
 
 it("will get a value", () => {
   const input = { a: { b: "value" } };
@@ -37,4 +37,54 @@ it("will set empty objects", () => {
   set(input, "a.b", "new value");
 
   expect(input.a.b).toBe("new value");
+});
+
+it("will get all matching", () => {
+  const input: any = {
+    users: [{ name: "Ade" }, { name: "John" }, { name: "Jane" }],
+  };
+
+  expect(getAll(input, "users..name")).toStrictEqual([
+    { path: "users.0.name", value: "Ade" },
+    { path: "users.1.name", value: "John" },
+    { path: "users.2.name", value: "Jane" },
+  ]);
+});
+
+it("will get all matching", () => {
+  const input: any = {
+    tags: ["One", "Two", "Three"],
+  };
+
+  expect(getAll(input, "tags.")).toStrictEqual([
+    { path: "tags.0", value: "One" },
+    { path: "tags.1", value: "Two" },
+    { path: "tags.2", value: "Three" },
+  ]);
+});
+
+it("will get all nested matching", () => {
+  const input: any = {
+    users: [
+      { name: "Ade", tags: [{ content: "One" }, { content: "Two" }] },
+      { name: "John", tags: [{ content: "One" }] },
+      { name: "Jane", tags: [{ content: "One" }] },
+    ],
+  };
+
+  expect(getAll(input, "users..tags..content")).toStrictEqual([
+    { path: "users.0.tags.0.content", value: "One" },
+    { path: "users.0.tags.1.content", value: "Two" },
+    { path: "users.1.tags.0.content", value: "One" },
+    { path: "users.2.tags.0.content", value: "One" },
+  ]);
+});
+
+it("will get all with undefined", () => {
+  const input: any = { users: [{}, {}] };
+
+  expect(getAll(input, "users..firstname")).toStrictEqual([
+    { path: "users.0.firstname", value: undefined },
+    { path: "users.1.firstname", value: undefined },
+  ]);
 });
