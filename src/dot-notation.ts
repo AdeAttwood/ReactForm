@@ -77,6 +77,39 @@ export function getAll(object: ObjectType, notation: Notation): ObjectMatch[] {
 }
 
 /**
+ * Gets the next value at an index. If its undefined it will be set to a empty
+ * object then returned.
+ */
+function getNextValue(index: any, object: any): any {
+  if (typeof index === "undefined" || typeof object === "undefined") {
+    return undefined;
+  }
+
+  if (typeof object[index] === "undefined") {
+    object[index] = {};
+  }
+
+  return object[index];
+}
+
+/**
+ * Walks the notation tracking the value in the object. At the end will be to
+ * value that you can set the value at
+ */
+function walkNotation(object: ObjectType, notation: string[]): any {
+  while (notation.length > 1) {
+    const nextValue = getNextValue(notation.shift(), object);
+    if (typeof nextValue === "undefined") {
+      break;
+    }
+
+    object = nextValue;
+  }
+
+  return object;
+}
+
+/**
  * Set a value in a object from a dot notation
  */
 export function set(object: ObjectType, notation: Notation, value: any): void {
@@ -88,18 +121,7 @@ export function set(object: ObjectType, notation: Notation, value: any): void {
     notation = notation.split(".");
   }
 
-  while (notation.length > 1) {
-    const index = notation.shift();
-    if (typeof index === "undefined" || typeof object === "undefined") {
-      break;
-    }
-
-    if (typeof object[index] === "undefined") {
-      object[index] = {};
-    }
-
-    object = object[index];
-  }
+  object = walkNotation(object, notation);
 
   const index = notation.shift();
   if (typeof index === "undefined" || typeof object === "undefined") {
