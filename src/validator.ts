@@ -26,7 +26,7 @@ type ValidationOptions = {
  * the string is not empty then it will include a error message that will be
  * displayed to the user.
  */
-type ValidationFunction<T> = (formState: T, options: ValidationOptions) => string;
+export type ValidationFunction<T> = (formState: T, options: ValidationOptions) => string;
 
 /**
  * A list of rules that will can be validated. The key is a dot notation that

@@ -5,18 +5,11 @@ import userEvent from "@testing-library/user-event";
 import Form from "../src/form";
 import Input from "./input-component";
 
-import createValidator from "../src/validator";
-import { get } from "../src/dot-notation";
+import createValidator, { ValidationFunction } from "../src/validator";
 
 afterEach(cleanup);
 
-const required = (attribute: string) => (formState: any) => {
-  if (!get(formState, attribute)) {
-    return "Required";
-  }
-
-  return "";
-};
+const required: ValidationFunction<any> = (_, { value }) => (value ? "" : "Required");
 
 type User = {
   firstName: string;
@@ -69,7 +62,7 @@ it("will validate after input delay", async () => {
 });
 
 it("will validate nested data", async () => {
-  const validator = createValidator().addRule("user.firstname", required("user.firstname"));
+  const validator = createValidator().addRule("user.firstname", required);
 
   let result = await validator.validate({});
   expect(result).toStrictEqual({ "user.firstname": ["Required"] });
@@ -79,8 +72,14 @@ it("will validate nested data", async () => {
 });
 
 it("will validate array data", async () => {
-  const validator = createValidator().addRule("users..firstname", required("users..firstname"));
+  const validator = createValidator().addRule("users..firstname", required);
 
-  const result = await validator.validate({ users: [{}, {}] });
+  let result = await validator.validate({ users: [{}, {}] });
   expect(result).toStrictEqual({ "users.0.firstname": ["Required"], "users.1.firstname": ["Required"] });
+
+  result = await validator.validate({ users: [{ firstname: "One" }, { firstname: "Two" }] });
+  expect(result).toStrictEqual({});
+
+  const attributeResult = await validator.validateAttribute("users.0.firstname", { users: [{}, {}] });
+  expect(attributeResult).toStrictEqual(["Required"]);
 });
