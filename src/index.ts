@@ -6,3 +6,4 @@ export * from "./input-group";
 export * from "./list-group";
 export * from "./radio-group";
 export * from "./select-group";
+export * from "./validator";
