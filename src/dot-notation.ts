@@ -28,42 +28,46 @@ export function get(object: ObjectType, notation: Notation): any {
 }
 
 /**
- * Gets all matching values from a notation. This supports json path style deep
- * scan `users..name` for matching multiple items in an array of objects.
+ * Builds a new full path from the path parts
  */
-export function getAll(object: ObjectType, notation: Notation): ObjectMatch[] {
-  let matches: any[] = [];
-  if (typeof object === "undefined") {
-    return matches;
+function buildPath(index: number, prefixNotation: string[]): (match: ObjectMatch) => ObjectMatch {
+  return function ({ path: suffixPath, value }) {
+    const path = prefixNotation
+      .concat([index.toString(), suffixPath])
+      .filter((item) => item !== "")
+      .join(".");
+
+    return { value, path };
+  };
+}
+
+/**
+ * Scans for path matches recursively returning all of the matching items it
+ * can. Will call `getAll` that will return all of the matching path notations
+ * to the right of the deep scan mark of '..'
+ */
+function deepScan(value: any[] | undefined, subNotation: string[], prefixNotation: string[]) {
+  if (typeof value === "undefined") {
+    return [];
   }
 
-  if (typeof notation === "string") {
-    notation = notation.split(".");
-  }
+  return value
+    .map((item: any, index: number) => getAll(item, subNotation).map(buildPath(index, prefixNotation)).flat())
+    .flat();
+}
 
+/**
+ * Gets all of the matches that match a notation
+ */
+function getMatches(object: ObjectType, notation: string[]) {
+  let matches: ObjectMatch[] = [];
   for (let i = 0; i < notation.length; i++) {
     const currentNotation = notation[i];
 
     if (currentNotation === "" && Array.isArray(object)) {
       const subNotation = notation.slice(i + 1, notation.length);
       const prefixNotation = notation.slice(0, i);
-      matches = matches.concat(
-        object
-          ?.map((item: any, index) => {
-            return getAll(item, subNotation)
-              .map(({ path, value }) => {
-                return {
-                  path: prefixNotation
-                    .concat([index.toString(), path])
-                    .filter((item) => item !== "")
-                    .join("."),
-                  value,
-                };
-              })
-              .flat();
-          })
-          .flat()
-      );
+      matches = matches.concat(deepScan(object, subNotation, prefixNotation));
     }
 
     object = object?.[currentNotation];
@@ -77,10 +81,26 @@ export function getAll(object: ObjectType, notation: Notation): ObjectMatch[] {
 }
 
 /**
+ * Gets all matching values from a notation. This supports json path style deep
+ * scan `users..name` for matching multiple items in an array of objects.
+ */
+export function getAll(object: ObjectType, notation: Notation) {
+  if (typeof object === "undefined") {
+    return [];
+  }
+
+  if (typeof notation === "string") {
+    notation = notation.split(".");
+  }
+
+  return getMatches(object, notation);
+}
+
+/**
  * Gets the next value at an index. If its undefined it will be set to a empty
  * object then returned.
  */
-function getNextValue(index: any, object: any): any {
+function getNextValue(index: any, object: any) {
   if (typeof index === "undefined" || typeof object === "undefined") {
     return undefined;
   }
@@ -96,7 +116,7 @@ function getNextValue(index: any, object: any): any {
  * Walks the notation tracking the value in the object. At the end will be to
  * value that you can set the value at
  */
-function walkNotation(object: ObjectType, notation: string[]): any {
+function walkNotation(object: ObjectType, notation: string[]) {
   while (notation.length > 1) {
     const nextValue = getNextValue(notation.shift(), object);
     if (typeof nextValue === "undefined") {
