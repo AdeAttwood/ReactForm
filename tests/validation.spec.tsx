@@ -46,6 +46,28 @@ it("will validate the data with a raw function", async () => {
   await waitFor(() => expect(screen.getByText("First name is required")).not.toBeNull());
 });
 
+it("will validate after input delay", async () => {
+  const validate = jest.fn();
+  const validateAttribute = jest.fn(async () => []);
+
+  render(
+    <Form
+      initialValues={{ firstName: "" }}
+      onSubmit={({ formState }) => formState}
+      validator={{ validate, validateAttribute }}
+    >
+      <Input attribute="firstName" />
+      <button>submit</button>
+    </Form>
+  );
+
+  await userEvent.type(screen.getByLabelText("firstName"), "testing");
+  await waitFor(() => expect(validateAttribute).toHaveBeenCalledTimes(1));
+
+  await userEvent.click(screen.getByText("submit"));
+  await waitFor(() => expect(validate).toHaveBeenCalledTimes(1));
+});
+
 it("will validate nested data", async () => {
   const validator = createValidator().addRule("user.firstname", required("user.firstname"));
 

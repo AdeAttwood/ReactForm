@@ -71,12 +71,9 @@ export class Validator<T> {
    */
   async validate(data: T): Promise<ErrorBag> {
     const validationErrors: ErrorBag = {};
-    for (const [attribute, validationFunctions] of Object.entries(this.rules)) {
+    for (const attribute of Object.keys(this.rules)) {
       getAll(data as any, attribute).forEach(({ path, value }) => {
-        const errors = validationFunctions
-          .map((validationFunction) => validationFunction(data, { attribute, path, value }))
-          .filter((item) => item);
-
+        const errors = this.applyFunction(attribute, path, value, data);
         if (errors.length > 0) {
           validationErrors[path] = errors;
         }
@@ -84,6 +81,30 @@ export class Validator<T> {
     }
 
     return validationErrors;
+  }
+
+  /**
+   * Validates a single attribute and returns the errors
+   */
+  validateAttribute = async (attribute: string, data: T): Promise<string[]> => {
+    for (const validationPath of Object.keys(this.rules)) {
+      for (const { path, value } of getAll(data as any, validationPath)) {
+        if (path === attribute) {
+          return this.applyFunction(validationPath, path, value, data);
+        }
+      }
+    }
+
+    return [];
+  };
+
+  /**
+   * Calls all of the validation functions for an attribute
+   */
+  private applyFunction(attribute: string, path: string, value: any, data: T) {
+    return this.rules[attribute]
+      .map((validationFunction) => validationFunction(data, { attribute, path, value }))
+      .filter((item) => item);
   }
 }
 
