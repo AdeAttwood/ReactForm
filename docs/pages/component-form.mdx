@@ -1,0 +1,26 @@
+import Layout from "../layouts/main";
+
+export const meta = {
+  title: "Components | Form",
+};
+
+# Form Component
+
+The `Form` component is the wrapper for all the inputs and is where the context
+for your form is held. The only required props for the component are
+`initialValues` that is the initial value for the form state and a `onSubmit`
+callback that will be called when the user submits a valid form.
+
+```jsx
+import { Form } from "@adeattwood/react-form"
+
+<Form
+  initialValues={{ firstname: "", lastname: "" }}
+  onSubmit={({ formState }) => api.createUser(formState)}
+>
+  <FirstNameInput />
+  <LastNameInput />
+</Form>
+```
+
+export default ({ children }) => <Layout meta={meta}>{children}</Layout>

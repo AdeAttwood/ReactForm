@@ -1,0 +1,43 @@
+// Code bootstrap function
+
+$white: #fff;
+$gray-50: #fafafa;
+$gray-100: #f7fafc;
+$gray-200: #edf2f7;
+$gray-300: #e2e8f0;
+$gray-400: #cbd5e0;
+$gray-500: #a0aec0;
+$gray-600: #718096;
+$gray-700: #425466;
+$gray-800: #2d3748;
+$gray-900: #1a202c;
+$black: #000;
+
+$blue: #3b6eff;
+$indigo: #6366f1;
+$purple: #5f1f7a;
+$pink: #ff92ae;
+$red: #f16063;
+$orange: #f7936f;
+$yellow: #fdb813;
+$green: #66cb9f;
+$teal: #4dd9cb;
+$cyan: #68dbf2;
+
+$primary: $indigo;
+$secondary: $gray-300;
+$tertiary: $pink;
+$neutral: $white;
+$success: $green;
+$info: $cyan;
+$warning: $orange;
+$danger: $red;
+$light: $gray-200;
+$dark: $gray-900;
+
+$font-family-sans-serif: "Lato", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans",
+  "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+$font-family-monospace: "Source Code Pro", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+  monospace !default;
+
+@import "./base";

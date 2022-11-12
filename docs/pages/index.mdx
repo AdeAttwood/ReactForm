@@ -1,0 +1,51 @@
+import Layout from "../layouts/main";
+
+export const meta = {
+  title: "Overview",
+};
+
+# React Form - Overview
+
+React Form is a UI agnostic form abstraction for React. It was built out of the
+frustration of having to manage attribute and error state using `useState`. It
+is built to be a low level form library, so you can build your own form inputs
+that integrate with your design system. This makes building forms with React
+look consistent and promotes roper abstraction of application logic.
+
+Form inputs can be built using render a prop that receive `props` and `error`.
+The props can be spread on to an input, giving you full access to the native
+elements for full customizability.
+
+```jsx
+import { InputGroup } from "@adeattwood/react-form";
+
+const Input = ({ attribute, label }) => (
+  <InputGroup attribute={attribute}>
+    {({ props, error }) => (
+      <div>
+        <label htmlFor={props.id}>{label}</label>
+        <input {...props} />
+        {error && <p>{error}</p>}
+      </div>
+    )}
+  </InputGroup>
+);
+```
+
+Then to use your input you can wrap then in the `Form` component that will use
+a context to manage all of the for logic for you. Once the form is submitted
+the `onSubmit` function will be called with the current state of the form.
+
+```jsx
+import { Form } from "@adeattwood/react-form";
+
+<Form
+  initialValues={{ username: "" }}
+  onSubmit={({ formState }) => console.log(formState.username)}
+>
+  <Input label="Username" attribute="username"
+  <button>Submit</button>
+</Form>
+```
+
+export default ({ children }) => <Layout meta={meta}>{children}</Layout>

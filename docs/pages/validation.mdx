@@ -1,0 +1,70 @@
+import Layout from "../layouts/main";
+
+export const meta = {
+  title: "Validation",
+};
+
+# Validation
+
+The `Form` component takes a `validator` as a prop, this is an object that must
+contain a `validate` function and an optional `validateAttribute` function.
+
+The `validate` function will take the form data and return an `ErrorBag`
+populated with a list of errors this form data has. The `validateAttribute`
+function will take an attribute and the form data and must return an array of
+error messages corresponding to the attribute.
+
+React Form comes with a built in validator that will handle most of the heavy
+lifting for you.
+
+```js
+const validator = createValidator({
+  username: [
+    ({ title }) => {
+      if (!title || title.length === 0) {
+        return "Title is required";
+      }
+    },
+  ],
+  password: [
+    ({ password }) => {
+      if (!password || password.length === 0) {
+        return "Password is required";
+      }
+    },
+    ({ password }) => {
+      if (password && password.length < 3) {
+        return "Password must have more than 3 characters";
+      }
+    },
+  ],
+});
+```
+
+Each key is an attribute notation that will correspond to an attribute in
+formState. Each value is an array of functions that will take form state and
+return an error message if the validation fails. If an empty string or
+undefined is returned, that validation check is considered successful.
+
+The validator supports nested attribute validation with JSON Path style deep
+scan. To define a nested validator you add the attribute with a `..` for
+example to validate a users first name you can use `users..firstname`
+
+For these types of rules, you can use the validation options you get passed
+into a validation function. For more info on validation options you can see the
+`ValidationOptions` type in
+[validator.ts](https://github.com/AdeAttwood/ReactForm/blob/0.x/src/validator.ts)
+
+```js
+const validator = createValidator({
+  'users..firstname': [
+    (_, { value, path, attribute }) => {
+      if (!value || value.length === 0) {
+        return "Title is required";
+      }
+    },
+  ],
+});
+```
+
+export default ({ children }) => <Layout meta={meta}>{children}</Layout>

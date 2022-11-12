@@ -1,0 +1,69 @@
+$links-width: 250px;
+$nav-height: 83px;
+
+.mainGrid {
+  display: grid;
+  grid-template-columns: $links-width 1fr;
+
+  max-width: 1200px;
+
+  margin-top: $nav-height;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.links {
+  position: fixed;
+  width: $links-width;
+  height: 100%;
+
+  // Section headers
+  p {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+  }
+
+  // Each section
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      width: 100%;
+      font-size: 1.1rem;
+    }
+  }
+
+  .noLinkWrapper {
+    padding: 0.2rem 0.5rem;
+  }
+
+  li.linkWrapper a {
+    // Indent links inside a list so they look visually nested
+    padding-left: 2rem;
+  }
+
+  // The links in the nav
+  .linkWrapper {
+    a {
+      width: 100%;
+      margin: 0;
+      padding: 0.2rem 0.5rem;
+
+      display: inline-block;
+      text-decoration: none;
+
+      border-radius: var(--bs-border-radius);
+
+      transition: all 0.3s ease;
+
+      &:hover {
+        color: var(--bs-light);
+        background-color: rgba(var(--bs-primary-rgb), 0.7);
+      }
+    }
+  }
+}

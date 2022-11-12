@@ -1,0 +1,47 @@
+import Layout from "../layouts/main";
+
+export const meta = {
+  title: "Building Inputs",
+};
+
+# Building inputs
+
+Inputs need to be built once for your project, then you can use them across
+your application to build forms. Form inputs are built using render props, or
+for a more custom input you can dive into the hooks API to get the
+functionality and user experience you want for your input. There are a few
+different components then can use that are customized to different types of
+inputs, from the most basic text input to list inputs.
+
+The below input is a more detailed example from the overview page. It has been
+built to be used with bootstrap CSS framework, defining a full form group with
+a label and feedback state. It has all the aria labels to make this input
+accessible.
+
+```jsx
+import { InputGroup } from "@adeattwood/react-form";
+
+const Input = ({ attribute, label, className }) => {
+  return (
+    <InputGroup attribute={attribute}>
+      {({ props, error }) => (
+        <div className={["form-group", className].join(" ")}>
+          <label className="mb-1" htmlFor={props.id}>
+            {label}
+          </label>
+          <input
+            {...props}
+            className={`form-control ${error && "is-invalid"}`}
+            aria-describedby={props.id + "--error"}
+          />
+          <div id={props.id + "--error"} className="invalid-feedback" aria-live="polite">
+            {Boolean(error) && error}
+          </div>
+        </div>
+      )}
+    </InputGroup>
+  );
+};
+```
+
+export default ({ children }) => <Layout meta={meta}>{children}</Layout>

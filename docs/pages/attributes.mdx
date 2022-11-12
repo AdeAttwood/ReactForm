@@ -1,0 +1,38 @@
+import Layout from "../layouts/main";
+
+export const meta = {
+  title: "Attributes",
+};
+
+# Attributes
+
+Each input will need an `attribute` that will define the key in `formState` it
+will control. Attributes can be defined as dot notation strings for nested json
+data.
+
+```js
+{ 
+  firstName: 'John',
+  tags: [ "Admin" ],
+  address: {
+    postcode: "E20 6PQ"
+  },
+  profiles: [
+    {
+      type: "facebook",
+      url: "https://facebook.com/john"  
+    }
+  ]
+}
+```
+
+Given the above data each attribute can be defined as below.
+
+| Attribute          | Value    |
+| ------------------ | -------- |
+| `firstName`        | John     |
+| `tags.0`           | Admin    |
+| `address.postcode` | E20 6PQ  |
+| `profiles.0.type`  | facebook |
+
+export default ({ children }) => <Layout meta={meta}>{children}</Layout>

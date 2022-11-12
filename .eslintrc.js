@@ -8,10 +8,11 @@ module.exports = {
   },
   extends: [
     "eslint:recommended",
-    "plugin:react/recommended",
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended",
     "plugin:react-hooks/recommended",
-    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
   ],
   plugins: ["react", "prettier"],
   settings: {
@@ -19,6 +20,7 @@ module.exports = {
     react: { version: "detect" },
   },
   rules: {
+    "@next/next/no-html-link-for-pages": ["error", "docs/pages/"],
     "react/prop-types": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/ban-types": [

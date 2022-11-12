@@ -1,0 +1,14 @@
+//
+// Null Button
+//
+// Removes all styling from buttons so they can be used as click targets for things like icons.
+// This is prefered over added the click handler to the icon directly.
+
+.btn-null {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    outline: inherit;
+  }

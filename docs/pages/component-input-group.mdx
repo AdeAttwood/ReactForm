@@ -1,0 +1,49 @@
+import Layout from "../layouts/main";
+
+export const meta = {
+  title: "Components | Input Group",
+};
+
+# Input Group
+
+The input group is the most basic of inputs. All values will be a string in
+your form state to keep it consistent with when you make a native post request.
+
+```jsx
+import { InputGroup } from "@adeattwood/react-form";
+
+const Input = ({ attribute, label, className }) => {
+  return (
+    <InputGroup attribute={attribute}>
+      {({ props, error }) => (
+        <div className={["form-group", className].join(" ")}>
+          <label className="mb-1" htmlFor={props.id}>
+            {label}
+          </label>
+          <input
+            {...props}
+            className={`form-control ${error && "is-invalid"}`}
+            aria-describedby={props.id + "--error"}
+          />
+          <div id={props.id + "--error"} className="invalid-feedback" aria-live="polite">
+            {Boolean(error) && error}
+          </div>
+        </div>
+      )}
+    </InputGroup>
+  );
+};
+```
+
+## Types
+
+To provide other types, such as number, you can add the type prop to the input
+after you spread the default props.
+
+```jsx
+<InputGroup attribute={attribute}>
+  {({ props }) => (<input {...props} type="number" />)}
+</InputGroup>
+```
+
+export default ({ children }) => <Layout meta={meta}>{children}</Layout>
