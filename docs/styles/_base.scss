@@ -1,0 +1,13 @@
+// Add the code bootstrap styles
+@import "~bootstrap/scss/bootstrap";
+@import "~bootstrap-icons/font/bootstrap-icons.scss";
+
+@import "./components/null-button";
+
+html,
+body,
+#__next {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}

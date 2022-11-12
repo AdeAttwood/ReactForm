@@ -1,0 +1,31 @@
+import Layout from "../layouts/main";
+
+export const meta = {
+  title: "Components | Select Group",
+};
+
+# Radio Group
+
+This input has a customized API to handle a select dropdown input type.
+
+```jsx
+import { SelectGroup } from "@adeattwood/react-form";
+
+<SelectGroup attribute={attribute}>
+  {({ error, props }) => (
+    <div>
+      <label htmlFor={props.id}>Select</label>
+      <select {...props}>
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+      {error && <span>{error}</span>}
+    </div>
+  )}
+</SelectGroup>
+```
+
+export default ({ children }) => <Layout meta={meta}>{children}</Layout>

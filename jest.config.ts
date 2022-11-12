@@ -20,7 +20,7 @@ export default {
   // collectCoverage: false,
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
-  collectCoverageFrom: ["src/**/**"],
+  collectCoverageFrom: ["src/**/**", "docs/**/**", "!docs/.next/**"],
 
   // The directory where Jest should output its coverage files
   // coverageDirectory: undefined,
@@ -76,19 +76,12 @@ export default {
   // ],
 
   // An array of file extensions your modules use
-  // moduleFileExtensions: [
-  //   "js",
-  //   "mjs",
-  //   "cjs",
-  //   "jsx",
-  //   "ts",
-  //   "tsx",
-  //   "json",
-  //   "node"
-  // ],
+  moduleFileExtensions: ["js", "mjs", "cjs", "jsx", "ts", "tsx"],
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
-  // moduleNameMapper: {},
+  moduleNameMapper: {
+    "^.+\\.(svg|scss)$": "identity-obj-proxy",
+  },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
   // modulePathIgnorePatterns: [],

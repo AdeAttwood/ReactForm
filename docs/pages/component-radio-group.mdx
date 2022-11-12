@@ -1,0 +1,28 @@
+import Layout from "../layouts/main";
+
+export const meta = {
+  title: "Components | Radio Group",
+};
+
+# Radio Group
+
+This input has a customized API to handle a radio list input type.
+
+```jsx
+import { RadioGroup, RadioOption } from "@adeattwood/react-form";
+
+<RadioGroup attribute="pickOne" options={options}>
+  {() => (
+    <RadioOption>
+      {({ props, label }) => (
+        <div key={props.id}>
+          <input {...props} />
+          <label htmlFor={props.id}>{label}</label>
+        </div>
+      )}
+    </RadioOption>
+  )}
+</RadioGroup>
+```
+
+export default ({ children }) => <Layout meta={meta}>{children}</Layout>

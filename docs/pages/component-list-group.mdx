@@ -1,0 +1,39 @@
+import Layout from "../layouts/main";
+
+export const meta = {
+  title: "Components | List Group",
+};
+
+# Radio Group
+
+This input has a customized API to handle a select dropdown input type.
+
+```jsx
+import { ListGroup, ListOption, InputGroup } from "@adeattwood/react-form";
+
+<ListGroup attribute="tags">
+  {({ add }) => (
+    <div>
+      <ListOption>
+        {({ index }) => (
+          <div key={index}>
+            <InputGroup attribute={`tags.${index}`}>
+              {({ props }) => (
+                <div>
+                  <label htmlFor={props.id}>Tag {parseInt(index) + 1}</label>
+                  <input {...props} />
+                </div>
+              )}
+            </InputGroup>
+          </div>
+        )}
+      </ListOption>
+      <button type="button" onClick={add}>
+        Add Tag
+      </button>
+    </div>
+  )}
+</ListGroup>
+```
+
+export default ({ children }) => <Layout meta={meta}>{children}</Layout>
