@@ -110,3 +110,27 @@ it("will validate nested validators", async () => {
 
   expect(onSubmit).not.toHaveBeenCalled();
 });
+
+it("will use a validation function that returns undefined", async () => {
+  const validator = createValidator({
+    userName: [
+      ({ userName }) => {
+        if (!userName) {
+          return "Error message";
+        }
+      },
+    ],
+  });
+
+  const result = await validator.validate({});
+  expect(result).toStrictEqual({ userName: ["Error message"] });
+});
+
+it("will use validation functions that are empty or undefined as valid", async () => {
+  const validator = createValidator({
+    userName: [() => "", () => undefined],
+  });
+
+  const result = await validator.validate({});
+  expect(result).toStrictEqual({});
+});
