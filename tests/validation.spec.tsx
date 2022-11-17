@@ -83,3 +83,30 @@ it("will validate array data", async () => {
   const attributeResult = await validator.validateAttribute("users.0.firstname", { users: [{}, {}] });
   expect(attributeResult).toStrictEqual(["Required"]);
 });
+
+const nestedValidator = createValidator({
+  "author.name": [
+    (formState) => {
+      if (!formState?.author?.name) {
+        return "Author name can not be blank";
+      }
+
+      return "";
+    },
+  ],
+});
+
+it("will validate nested validators", async () => {
+  const onSubmit = jest.fn();
+  render(
+    <Form initialValues={{ author: { name: "" } }} validator={nestedValidator} onSubmit={onSubmit}>
+      <Input attribute="author.name" />
+      <button>submit</button>
+    </Form>
+  );
+
+  await userEvent.click(screen.getByText("submit"));
+  await waitFor(() => screen.getByText("Author name can not be blank"));
+
+  expect(onSubmit).not.toHaveBeenCalled();
+});

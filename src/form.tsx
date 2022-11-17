@@ -143,8 +143,11 @@ export class Form<T extends Record<string, any>> extends React.Component<FormPro
    * Gets the first error message found for an attribute. Undefined will be
    * returned if there are not validation errors for the attribute.
    */
-  firstError = (attribute: string): string => {
-    return get(this.state.errors, [...attribute.split("."), "0"]);
+  firstError = (attribute: string): string | undefined => {
+    const attributeErrors = this.state.errors[attribute];
+    if (typeof attributeErrors !== "undefined") {
+      return attributeErrors[0];
+    }
   };
 
   /**
