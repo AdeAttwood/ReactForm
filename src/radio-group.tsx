@@ -19,7 +19,7 @@ export interface OptionType {
   value: string;
 }
 
-export interface RadioGroupProps extends BaseGroupProps<{ error: string }> {
+export interface RadioGroupProps extends BaseGroupProps<{ error?: string }> {
   /**
    * The options for this input
    */
