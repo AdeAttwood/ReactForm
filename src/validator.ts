@@ -26,7 +26,7 @@ type ValidationOptions = {
  * the string is not empty then it will include a error message that will be
  * displayed to the user.
  */
-export type ValidationFunction<T> = (formState: T, options: ValidationOptions) => string;
+export type ValidationFunction<T> = (formState: T, options: ValidationOptions) => string | undefined;
 
 /**
  * A list of rules that will can be validated. The key is a dot notation that
@@ -104,7 +104,9 @@ export class Validator<T> {
   private applyFunction(attribute: string, path: string, value: any, data: T) {
     return this.rules[attribute]
       .map((validationFunction) => validationFunction(data, { attribute, path, value }))
-      .filter((item) => item);
+      .filter((item): item is string => {
+        return typeof item === "string" && item.length > 0;
+      });
   }
 }
 
