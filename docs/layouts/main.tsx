@@ -60,6 +60,10 @@ const navData: LinkSetProps[] = [
         title: "List Group",
         href: "/component-list-group",
       },
+      {
+        title: "Check Group",
+        href: "/component-check-group",
+      },
     ],
   },
 ];
