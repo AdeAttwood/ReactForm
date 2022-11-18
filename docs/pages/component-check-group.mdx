@@ -1,0 +1,25 @@
+import Layout from "../layouts/main";
+
+export const meta = {
+  title: "Components | Check Group",
+};
+
+# Check Group
+
+This input has a customized API to handle a checkbox input type.
+
+```jsx
+import { CheckGroup } from "@adeattwood/react-form";
+
+<CheckGroup attribute="checkMe">
+    {({ props, error }) => (
+        <div>
+          <label htmlFor={props.id}>Check</label>
+          <input {...props} />
+          {error && <p>{error}</p>}
+        </div>
+    )}
+</CheckGroup>
+```
+
+export default ({ children }) => <Layout meta={meta}>{children}</Layout>;
