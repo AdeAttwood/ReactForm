@@ -4,6 +4,11 @@ import { FormContext } from "./form-context";
 import type { ErrorBag } from "./validator";
 import { get, set } from "./dot-notation";
 
+/**
+ * All the available values that the status of the form could be
+ */
+export type FormStatus = "clean" | "error" | "dirty" | "validating" | "submitting";
+
 export interface FormProps<T extends {}> {
   /**
    * The initial form state
@@ -36,7 +41,7 @@ export interface FormProps<T extends {}> {
   /**
    * TODO(ade): Sort out this doc
    */
-  onSubmit: (params: { formState: T }) => void;
+  onSubmit: (params: { formState: T }) => any | Promise<any>;
   /**
    * TODO(ade): sort out prop with children
    */
@@ -47,6 +52,10 @@ export interface FormProps<T extends {}> {
  * The internal state of the form
  */
 export interface FormState<T> {
+  /**
+   * The internal status of the form
+   */
+  status: FormStatus;
   /**
    * Internal form values
    */
@@ -87,6 +96,10 @@ export class Form<T extends Record<string, any>> extends React.Component<FormPro
    */
   state: FormState<T> = {
     /**
+     * The internal status of the form
+     */
+    status: "clean",
+    /**
      * The form state of the current form
      */
     formState: this.props.initialValues,
@@ -106,14 +119,16 @@ export class Form<T extends Record<string, any>> extends React.Component<FormPro
    */
   submit = async (event: React.SyntheticEvent) => {
     event.preventDefault();
+    this.setState({ status: "validating" });
     const errors = await this.props.validator?.validate(this.state.formState);
-    if (errors && Object.keys(errors).length > 0) {
-      return this.setState({ errors });
+    const status = this.getErrorStatus(errors || {});
+    if (errors && status === "error") {
+      return this.setState({ errors, status });
     }
 
-    this.props.onSubmit({
-      formState: this.state.formState,
-    });
+    this.setState({ status: "submitting" });
+    await this.props.onSubmit({ formState: this.state.formState });
+    this.setState({ status });
   };
 
   /**
@@ -128,6 +143,7 @@ export class Form<T extends Record<string, any>> extends React.Component<FormPro
    */
   setAttribute = (attribute: string, value: any) => {
     const { formState, errors } = this.state;
+    let { status } = this.state;
 
     set(formState, attribute, value);
     delete errors[attribute];
@@ -136,7 +152,11 @@ export class Form<T extends Record<string, any>> extends React.Component<FormPro
       this.queueValidation(attribute, this.props.validateTimeout);
     }
 
-    this.setState({ formState, errors });
+    if (status === "clean") {
+      status = "dirty";
+    }
+
+    this.setState({ formState, errors, status });
   };
 
   /**
@@ -176,6 +196,7 @@ export class Form<T extends Record<string, any>> extends React.Component<FormPro
    */
   validateTimeout = async () => {
     const { formState, errors } = this.state;
+    this.setState({ status: "validating" });
 
     for (const attribute of this.attributesToValidate) {
       const attributeErrors = await this.validateAttribute(attribute, formState);
@@ -185,7 +206,7 @@ export class Form<T extends Record<string, any>> extends React.Component<FormPro
     }
 
     this.attributesToValidate = [];
-    this.setState({ errors });
+    this.setState({ errors, status: this.getErrorStatus(errors) });
   };
 
   /**
@@ -202,10 +223,19 @@ export class Form<T extends Record<string, any>> extends React.Component<FormPro
   };
 
   /**
+   * Get if the error bag has errors or is valid. In this case it will return
+   * "clean" to indicate the form is valid.
+   */
+  private getErrorStatus(errors: ErrorBag): "clean" | "error" {
+    return Object.keys(errors).length > 0 ? "error" : "clean";
+  }
+
+  /**
    * Gets all of the values that wil be available in the public context
    */
   private getContextValue = () => {
     return {
+      status: this.state.status,
       formState: this.state.formState,
       errors: this.state.errors,
       firstError: this.firstError,
