@@ -1,25 +1,15 @@
 import { FC } from "react";
-import { useFormContext } from "./form-context";
 import { AttributeHook } from "./attribute-hook";
 import { BaseGroupProps } from "./base-group-props";
+import { useBooleanAttribute } from "./use-attribute";
 
 export type CheckAttributeHook = AttributeHook<HTMLInputElement>;
 
 export const useCheckboxAttribute = (attribute: string): CheckAttributeHook => {
-  const formContext = useFormContext();
+  const { id, error, value: checked, set } = useBooleanAttribute(attribute, false);
 
-  return {
-    error: formContext.firstError(attribute),
-    props: {
-      id: attribute,
-      name: attribute,
-      type: "checkbox",
-      checked: Boolean(formContext.getAttribute(attribute)),
-      onChange: ({ target: { checked } }) => {
-        formContext.setAttribute(attribute, Boolean(checked));
-      },
-    },
-  };
+  const onChange: CheckAttributeHook["props"]["onChange"] = ({ target: { checked } }) => set(checked);
+  return { error, props: { id, name: attribute, type: "checkbox", checked, onChange } };
 };
 
 export interface CheckGroupProps {

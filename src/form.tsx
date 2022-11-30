@@ -135,7 +135,8 @@ export class Form<T extends Record<string, any>> extends React.Component<FormPro
    * Gets the value for a given attribute
    */
   getAttribute = (attribute: string, defaultValue: any = "") => {
-    return get(this.state.formState, attribute) || defaultValue;
+    const result = get(this.state.formState, attribute);
+    return typeof result !== "undefined" ? result : defaultValue;
   };
 
   /**
