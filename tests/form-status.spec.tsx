@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, cleanup, waitFor } from "@testing-library/react";
+import { render, screen, cleanup, waitFor, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import Form from "../src/form";
@@ -41,7 +41,10 @@ it("will start clean then go dirty when the user inputs a value", async () => {
   renderForm({ onSubmit, formContext });
 
   expect(formContext.current?.status).toBe("clean");
-  await userEvent.type(screen.getByLabelText("test-input"), "some value");
+  await act(async () => {
+    await userEvent.type(screen.getByLabelText("test-input"), "some value");
+  });
+
   await waitFor(() => expect(formContext.current?.status).toBe("dirty"));
 });
 
@@ -56,9 +59,12 @@ it("validate and submit", async () => {
   renderForm({ onSubmit, formContext, validator });
 
   expect(formContext.current?.status).toBe("clean");
-  await userEvent.type(screen.getByLabelText("test-input"), "some value");
 
-  userEvent.click(screen.getByText("submit"));
+  await act(async () => {
+    await userEvent.type(screen.getByLabelText("test-input"), "some value");
+    await userEvent.click(screen.getByText("submit"));
+  });
+
   await waitFor(() => expect(formContext.current?.status).toBe("validating"), { timeout: 5000 });
   validateResolve();
 
@@ -79,6 +85,6 @@ it("will have the error status", async () => {
   const formContext: ContextReference = { current: undefined };
   renderForm({ onSubmit, formContext, validator });
 
-  userEvent.click(screen.getByText("submit"));
+  await act(async () => await userEvent.click(screen.getByText("submit")));
   await waitFor(() => expect(formContext.current?.status).toBe("error"));
 });

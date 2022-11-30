@@ -21,14 +21,14 @@ it("will render and submit with a checkbox attribute", async () => {
     </Form>
   );
 
-  await userEvent.click(getByLabelText("Check"));
-  await userEvent.click(getByText("Submit"));
+  await act(async () => userEvent.click(getByLabelText("Check")));
+  await act(async () => userEvent.click(getByText("Submit")));
 
   expect(onSubmit).toBeCalledTimes(1);
   expect(onSubmit).toBeCalledWith(expect.objectContaining({ formState: { checkMe: true } }));
 
-  await userEvent.click(getByLabelText("Check"));
-  await userEvent.click(getByText("Submit"));
+  await act(async () => userEvent.click(getByLabelText("Check")));
+  await act(async () => userEvent.click(getByText("Submit")));
 
   expect(onSubmit).toBeCalledTimes(2);
   expect(onSubmit).toBeCalledWith(expect.objectContaining({ formState: { checkMe: false } }));
@@ -50,7 +50,7 @@ it("will have a default value and submit", async () => {
     </Form>
   );
 
-  await userEvent.click(getByText("Submit"));
+  await act(async () => userEvent.click(getByText("Submit")));
   await waitFor(() => expect(onSubmit).toBeCalledTimes(1));
   expect(onSubmit).toBeCalledWith(
     expect.objectContaining({
