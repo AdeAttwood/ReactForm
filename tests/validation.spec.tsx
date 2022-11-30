@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, cleanup, waitFor } from "@testing-library/react";
+import { render, screen, cleanup, waitFor, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import Form from "../src/form";
@@ -35,7 +35,7 @@ it("will validate the data with a raw function", async () => {
     </Form>
   );
 
-  await userEvent.click(screen.getByText("submit"));
+  await act(async () => userEvent.click(screen.getByText("submit")));
   await waitFor(() => expect(screen.getByText("First name is required")).not.toBeNull());
 });
 
@@ -54,10 +54,10 @@ it("will validate after input delay", async () => {
     </Form>
   );
 
-  await userEvent.type(screen.getByLabelText("firstName"), "testing");
+  await act(async () => userEvent.type(screen.getByLabelText("firstName"), "testing"));
   await waitFor(() => expect(validateAttribute).toHaveBeenCalledTimes(1));
 
-  await userEvent.click(screen.getByText("submit"));
+  await act(async () => await userEvent.click(screen.getByText("submit")));
   await waitFor(() => expect(validate).toHaveBeenCalledTimes(1));
 });
 
@@ -105,7 +105,7 @@ it("will validate nested validators", async () => {
     </Form>
   );
 
-  await userEvent.click(screen.getByText("submit"));
+  await act(async () => userEvent.click(screen.getByText("submit")));
   await waitFor(() => screen.getByText("Author name can not be blank"));
 
   expect(onSubmit).not.toHaveBeenCalled();

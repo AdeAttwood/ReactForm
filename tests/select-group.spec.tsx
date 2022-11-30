@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { render, fireEvent, waitFor } from "@testing-library/react";
+import { render, fireEvent, waitFor, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Form from "../src/form";
 import SelectGroup from "../src/select-group";
@@ -47,8 +47,10 @@ it("will render and submit stuff", async () => {
     </Form>
   );
 
-  fireEvent.change(getByLabelText("Select"), { target: { value: "two" } });
-  fireEvent.click(getByText("Submit"));
+  act(() => {
+    fireEvent.change(getByLabelText("Select"), { target: { value: "two" } });
+    fireEvent.click(getByText("Submit"));
+  });
 
   await waitFor(() => expect(onSubmit).toBeCalledTimes(1));
   expect(onSubmit).toBeCalledWith(
@@ -67,8 +69,10 @@ it("will render and submit multiple values", async () => {
     </Form>
   );
 
-  userEvent.selectOptions(getByLabelText("Select"), ["three"]);
-  fireEvent.click(getByText("Submit"));
+  await act(async () => {
+    await userEvent.selectOptions(getByLabelText("Select"), ["three"]);
+    fireEvent.click(getByText("Submit"));
+  });
 
   await waitFor(() => expect(onSubmit).toBeCalledTimes(1));
   expect(onSubmit).toBeCalledWith(

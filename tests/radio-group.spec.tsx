@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { act, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Form from "../src/form";
 import { RadioGroup, RadioOption } from "../src/radio-group";
@@ -31,14 +31,18 @@ it("will render and submit with a radio list", async () => {
     </Form>
   );
 
-  await userEvent.click(getByLabelText("One"));
-  await userEvent.click(getByText("Submit"));
+  await act(async () => {
+    await userEvent.click(getByLabelText("One"));
+    await userEvent.click(getByText("Submit"));
+  });
 
   expect(onSubmit).toBeCalledTimes(1);
   expect(onSubmit).toBeCalledWith(expect.objectContaining({ formState: { pickOne: "one" } }));
 
-  await userEvent.click(getByLabelText("Two"));
-  await userEvent.click(getByText("Submit"));
+  await act(async () => {
+    await userEvent.click(getByLabelText("Two"));
+    await userEvent.click(getByText("Submit"));
+  });
 
   expect(onSubmit).toBeCalledTimes(2);
   expect(onSubmit).toBeCalledWith(expect.objectContaining({ formState: { pickOne: "two" } }));

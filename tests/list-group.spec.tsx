@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { act, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Form from "../src/form";
 import { ListGroup, ListOption } from "../src/list-group";
@@ -36,21 +36,28 @@ it("will render and submit with a radio list", async () => {
     </Form>
   );
 
-  await userEvent.click(getByText("Add Tag"));
-  await userEvent.click(getByText("Submit"));
+  await act(async () => {
+    await userEvent.click(getByText("Add Tag"));
+    await userEvent.click(getByText("Submit"));
+  });
 
   expect(onSubmit).toBeCalledTimes(1);
   expect(onSubmit).toBeCalledWith(expect.objectContaining({ formState: { tags: [""] } }));
 
-  await userEvent.type(getByLabelText("Tag 1"), "Tag One");
-  await userEvent.click(getByText("Submit"));
+  await act(async () => {
+    await userEvent.type(getByLabelText("Tag 1"), "Tag One");
+    await userEvent.click(getByText("Submit"));
+  });
 
   expect(onSubmit).toBeCalledTimes(2);
   expect(onSubmit).toBeCalledWith(expect.objectContaining({ formState: { tags: ["Tag One"] } }));
 
-  await userEvent.click(getByText("Add Tag"));
-  await userEvent.type(getByLabelText("Tag 2"), "Tag Two");
-  await userEvent.click(getByText("Submit"));
+  await act(async () => userEvent.click(getByText("Add Tag")));
+
+  await act(async () => {
+    await userEvent.type(getByLabelText("Tag 2"), "Tag Two");
+    await userEvent.click(getByText("Submit"));
+  });
 
   expect(onSubmit).toBeCalledTimes(3);
   expect(onSubmit).toBeCalledWith(expect.objectContaining({ formState: { tags: ["Tag One", "Tag Two"] } }));
