@@ -18,6 +18,16 @@ it("wont crash if we pass in undefined", () => {
   expect(get(undefined, "a.c.e")).toBeUndefined();
 });
 
+it("will return false value not the default value", () => {
+  const input = { a: false };
+  expect(get(input, "a")).toStrictEqual(false);
+});
+
+it("will return 0 value not the default value", () => {
+  const input = { a: 0 };
+  expect(get(input, "a")).toStrictEqual(0);
+});
+
 it("will work on an array", () => {
   const input = { a: { b: "value" } };
   const output = get(input, ["a", "b"]);
@@ -37,6 +47,20 @@ it("will set empty objects", () => {
   set(input, "a.b", "new value");
 
   expect(input.a.b).toBe("new value");
+});
+
+it("will set a false value", () => {
+  const input = { a: "testing" };
+  set(input, "a", false);
+
+  expect(input.a).toStrictEqual(false);
+});
+
+it("will set a number value", () => {
+  const input = { a: "testing" };
+  set(input, "a", 22);
+
+  expect(input.a).toStrictEqual(22);
 });
 
 it("will get all matching", () => {

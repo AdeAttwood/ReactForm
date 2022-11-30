@@ -24,7 +24,12 @@ type ObjectMatch = {
  * Get a value from a object from a dot notation
  */
 export function get(object: ObjectType, notation: Notation): any {
-  return getAll(object, notation)?.[0]?.value || undefined;
+  const matches = getAll(object, notation);
+  if (matches.length === 0) {
+    return undefined;
+  }
+
+  return matches[0].value;
 }
 
 /**

@@ -1,7 +1,7 @@
 import { FC } from "react";
-import { useFormContext } from "./form-context";
 import { AttributeHook } from "./attribute-hook";
 import { BaseGroupProps } from "./base-group-props";
+import { useStringAttribute } from "./use-attribute";
 
 export type TextAttributeHook = AttributeHook<HTMLInputElement>;
 
@@ -10,19 +10,10 @@ export type TextAttributeHook = AttributeHook<HTMLInputElement>;
  * the from context
  */
 export const useTextAttribute = (attribute: string): TextAttributeHook => {
-  const formContext = useFormContext<{}>();
+  const { id, error, value, set } = useStringAttribute(attribute, "");
 
-  return {
-    error: formContext.firstError(attribute),
-    props: {
-      id: attribute,
-      name: attribute,
-      value: formContext.getAttribute(attribute),
-      onChange: ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
-        formContext.setAttribute(attribute, value);
-      },
-    },
-  };
+  const onChange: TextAttributeHook["props"]["onChange"] = ({ target: { value } }) => set(value);
+  return { error, props: { id, name: attribute, value, onChange } };
 };
 
 /**
