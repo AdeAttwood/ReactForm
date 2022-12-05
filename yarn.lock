@@ -5597,9 +5597,9 @@ vfile-location@^4.0.0:
     vfile "^5.0.0"
 
 vfile-message@^3.0.0:
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/vfile-message/-/vfile-message-3.1.2.tgz#a2908f64d9e557315ec9d7ea3a910f658ac05f7d"
-  integrity sha512-QjSNP6Yxzyycd4SVOtmKKyTsSvClqBPJcd00Z0zuPj3hOIjg0rUPG6DbFGPvUKRgYyaIWLPKpuEclcuvb3H8qA==
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/vfile-message/-/vfile-message-3.1.3.tgz#1360c27a99234bebf7bddbbbca67807115e6b0dd"
+  integrity sha512-0yaU+rj2gKAyEk12ffdSbBfjnnj+b1zqTBv3OQCTn8yEB02bsPizwdBPrLJjHnK+cU9EMMcUnNv938XcZIkmdA==
   dependencies:
     "@types/unist" "^2.0.0"
     unist-util-stringify-position "^3.0.0"
