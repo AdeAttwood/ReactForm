@@ -6,8 +6,6 @@ Please include a summary of the change and which issue is fixed. Please also
 include relevant motivation and context. List any dependencies that are
 required for this change.
 
-Before you 
-
 -->
 
 Fixes # (issue)
@@ -29,8 +27,9 @@ Fixes # (issue)
 
 <!-- Please complete the checklist as best you can -->
 
-- [ ] My commits are formatted correctly
-- [ ] My code follows the style guidelines of this project
-- [ ] I have performed a self-review of my own code
 - [ ] I have commented my code, particularly in hard-to-understand areas
 - [ ] I have made corresponding changes to the documentation
+- [ ] I have performed a self-review of my own code
+- [ ] I have requested review from the maintainers
+- [ ] My code follows the [style guidelines](https://github.com/AdeAttwood/ReactForm/blob/0.x/CONTRIBUTING.md#coding-style) of this project
+- [ ] My commits are [formatted correctly](https://github.com/AdeAttwood/ReactForm/blob/0.x/CONTRIBUTING.md#committing-convention)

@@ -14,11 +14,11 @@ transparent as possible, whether it's:
 We use github to host code, to track issues and feature requests, as well as
 accept pull requests.
 
-There are two [milestones](../milestones) for this project. We have the
-backlog, this is tasks that have been reported and are out of scope for the
-current release. Then we have the current major release milestones, this is
-tasks that the core team will be looking to work on and get released in the
-current major version.
+There are two [milestones](https://github.com/AdeAttwood/ReactForm/milestones)
+for this project. We have the backlog, this is tasks that have been reported
+and are out of scope for the current release. Then we have the current major
+release milestones, this is tasks that the core team will be looking to work on
+and get released in the current major version.
 
 Anyone can work on any task they wish, the milestones are a way for us to
 convey or current direction for this project.
@@ -35,8 +35,9 @@ next release, all these issues will be closed.
 ## Any contributions you make will be under the BSD 3-Clause license
 
 In short, when you submit code changes, your submissions are understood to be
-under the same [BSD 3-Clause License](./LICENSE) that covers the project. Feel
-free to contact the maintainers if that's a concern.
+under the same [BSD 3-Clause
+License](https://github.com/AdeAttwood/ReactForm/blob/0.x/LICENSE) that covers
+the project. Feel free to contact the maintainers if that's a concern.
 
 ## Reporting bugs or requesting features
 
