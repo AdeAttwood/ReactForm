@@ -28,7 +28,7 @@
     "devDependencies": {
         "@mdx-js/loader": "^2.1.5",
         "@mdx-js/react": "^2.1.5",
-        "@next/mdx": "^13.0.5",
+        "@next/mdx": "^13.0.6",
         "@popperjs/core": "^2.11.6",
         "@testing-library/dom": ">=7.21.4",
         "@testing-library/jest-dom": "^5.16.5",
