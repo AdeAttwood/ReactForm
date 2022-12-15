@@ -1,7 +1,7 @@
 import React, { FC } from "react";
-import { useFormContext } from "./form-context";
 import { AttributeContextProvider, useAttributeContext } from "./attribute-context";
 import { BaseGroupProps } from "./base-group-props";
+import { createUseAttributeHook } from "./use-attribute";
 
 export interface ListGroupChildProps {
   /**
@@ -19,23 +19,36 @@ export interface ListGroupProps extends BaseGroupProps<ListGroupChildProps> {
   newItem?: () => any;
 }
 
+/**
+ * The function that will be used as the default get new item prop. This will
+ * return an empty object.
+ */
+const defaultNewItem = () => ({});
+
+/**
+ * Internal hook that will return the context state value as an array of items
+ * for the list
+ */
+const useArrayAttribute = createUseAttributeHook((value) => value);
+
+/**
+ * Hook that will to abstract all the list logic.
+ */
+export function useListAttribute<T>(attribute: string, newItem: () => T) {
+  const { id, error, value, set } = useArrayAttribute(attribute, []);
+  const add = () => set([...value, newItem()]);
+
+  return { id, error, value, set, add };
+}
+
 export const ListGroup: FC<ListGroupProps> = ({ children, attribute, newItem }) => {
-  const { getAttribute, setAttribute } = useFormContext();
-  const options = getAttribute(attribute, []);
-
-  if (typeof newItem === "undefined") {
-    throw new Error("newItem must not be undefined.");
-  }
-
-  const add = () => {
-    setAttribute(attribute, [...getAttribute(attribute, []), newItem()]);
-  };
+  const { value: options, add } = useListAttribute(attribute, newItem || defaultNewItem);
 
   return React.createElement(AttributeContextProvider, { attribute, options }, children({ add }));
 };
 
 ListGroup.defaultProps = {
-  newItem: () => ({}),
+  newItem: defaultNewItem,
 };
 
 export interface ListOptionChildProps {
