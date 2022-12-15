@@ -10,6 +10,10 @@ export type AttributeContextType<T> = {
    * requests multiple options
    */
   options: T[];
+  /**
+   * A callback function that will remove an item from the options at the index
+   */
+  remove?: (index: number) => void;
 };
 
 /**

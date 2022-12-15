@@ -13,17 +13,18 @@ it("will render and submit with a radio list", async () => {
         {({ add }) => (
           <div>
             <ListOption>
-              {({ index }) => (
-                <div key={index}>
-                  <InputGroup attribute={`tags.${index}`}>
-                    {({ props }) => (
-                      <div>
-                        <label htmlFor={props.id}>Tag {parseInt(index) + 1}</label>
-                        <input {...props} />
-                      </div>
-                    )}
-                  </InputGroup>
-                </div>
+              {({ index, remove }) => (
+                <InputGroup key={index} attribute={`tags.${index}`}>
+                  {({ props }) => (
+                    <div>
+                      <label htmlFor={props.id}>Tag {parseInt(index) + 1}</label>
+                      <input {...props} />
+                      <button type="button" onClick={remove}>
+                        Remove {parseInt(index) + 1}
+                      </button>
+                    </div>
+                  )}
+                </InputGroup>
               )}
             </ListOption>
             <button type="button" onClick={add}>
@@ -61,4 +62,12 @@ it("will render and submit with a radio list", async () => {
 
   expect(onSubmit).toBeCalledTimes(3);
   expect(onSubmit).toBeCalledWith(expect.objectContaining({ formState: { tags: ["Tag One", "Tag Two"] } }));
+
+  await act(async () => {
+    await userEvent.click(getByText("Remove 1"));
+    await userEvent.click(getByText("Submit"));
+  });
+
+  expect(onSubmit).toBeCalledTimes(4);
+  expect(onSubmit).toBeCalledWith(expect.objectContaining({ formState: { tags: ["Tag Two"] } }));
 });

@@ -37,14 +37,23 @@ const useArrayAttribute = createUseAttributeHook((value) => value);
 export function useListAttribute<T>(attribute: string, newItem: () => T) {
   const { id, error, value, set } = useArrayAttribute(attribute, []);
   const add = () => set([...value, newItem()]);
+  const remove = (index: number) => {
+    // Only attempt to remove the item from the array if its a valid array
+    // index `splice` will throw errors for out of range.
+    if (index > -1 && index < value.length) {
+      const newValue = [...value];
+      newValue.splice(index, 1);
+      set(newValue);
+    }
+  };
 
-  return { id, error, value, set, add };
+  return { id, error, value, set, add, remove };
 }
 
 export const ListGroup: FC<ListGroupProps> = ({ children, attribute, newItem }) => {
-  const { value: options, add } = useListAttribute(attribute, newItem || defaultNewItem);
+  const { value: options, add, remove } = useListAttribute(attribute, newItem || defaultNewItem);
 
-  return React.createElement(AttributeContextProvider, { attribute, options }, children({ add }));
+  return React.createElement(AttributeContextProvider, { attribute, options, remove }, children({ add }));
 };
 
 ListGroup.defaultProps = {
@@ -56,6 +65,10 @@ export interface ListOptionChildProps {
    * The index this option is at
    */
   index: string;
+  /**
+   * Callback that will remove the current item from the list
+   */
+  remove: () => void;
 }
 
 export interface ListOptionProps {
@@ -66,13 +79,14 @@ export interface ListOptionProps {
 }
 
 export const ListOption: FC<ListOptionProps> = ({ children }) => {
-  const { options } = useAttributeContext();
+  const { options, remove } = useAttributeContext();
 
   return (
     <>
       {Object.keys(options).map((index) =>
         children({
           index,
+          remove: () => remove?.(parseInt(index)),
         })
       )}
     </>
