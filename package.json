@@ -26,8 +26,8 @@
         "build": "tsc"
     },
     "devDependencies": {
-        "@mdx-js/loader": "^2.1.5",
-        "@mdx-js/react": "^2.1.5",
+        "@mdx-js/loader": "^2.2.1",
+        "@mdx-js/react": "^2.2.1",
         "@next/mdx": "^13.0.5",
         "@popperjs/core": "^2.11.6",
         "@testing-library/dom": ">=7.21.4",
