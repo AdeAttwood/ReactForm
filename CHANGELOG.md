@@ -1,3 +1,10 @@
+## [v0.0.1-alpha.2](https://github.com/AdeAttwood/ReactForm/compare/v0.0.1-alpha.1...v0.0.1-alpha.2) (2022-12-21)
+
+### Features
+
+* add hooks for setting different attributes of different data types ([eaff039](https://github.com/AdeAttwood/ReactForm/commit/eaff0399e982fda174efb159bb73c6b44a67dd6a))
+* implement remove list item ([0ff581c](https://github.com/AdeAttwood/ReactForm/commit/0ff581c9356a8b5eba98cba9dad9eaa9a9f9f07d)), closes [#38](https://github.com/AdeAttwood/ReactForm/issues/38)
+
 ## [v0.0.1-alpha.1](https://github.com/AdeAttwood/ReactForm/compare/v0.0.1-alpha.0...v0.0.1-alpha.1) (2022-11-19)
 
 ### Bug Fixes
