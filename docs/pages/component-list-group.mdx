@@ -15,13 +15,16 @@ import { ListGroup, ListOption, InputGroup } from "@adeattwood/react-form";
   {({ add }) => (
     <div>
       <ListOption>
-        {({ index }) => (
+        {({ index, remove }) => (
           <div key={index}>
             <InputGroup attribute={`tags.${index}`}>
               {({ props }) => (
                 <div>
                   <label htmlFor={props.id}>Tag {parseInt(index) + 1}</label>
                   <input {...props} />
+                  <button type="button" onClick={remove}>
+                    Remove {parseInt(index) + 1}
+                  </button>
                 </div>
               )}
             </InputGroup>
