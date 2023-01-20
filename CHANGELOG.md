@@ -1,3 +1,9 @@
+## [v0.0.1-alpha.3](https://github.com/AdeAttwood/ReactForm/compare/v0.0.1-alpha.2...v0.0.1-alpha.3) (2023-01-20)
+
+### Features
+
+* add onChange prop ([b7c7cda](https://github.com/AdeAttwood/ReactForm/commit/b7c7cda8199311f648e985066347173286939c41)), closes [#94](https://github.com/AdeAttwood/ReactForm/issues/94)
+
 ## [v0.0.1-alpha.2](https://github.com/AdeAttwood/ReactForm/compare/v0.0.1-alpha.1...v0.0.1-alpha.2) (2022-12-21)
 
 ### Features
