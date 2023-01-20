@@ -8,7 +8,7 @@ required for this change.
 
 -->
 
-Fixes # (issue)
+Ref #(issue)
 
 ## Type of change
 
