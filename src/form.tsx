@@ -43,6 +43,11 @@ export interface FormProps<T extends {}> {
    */
   onSubmit: (params: { formState: T }) => any | Promise<any>;
   /**
+   * Callback that is called whenever an attribute is changed
+   */
+  onChange?: (context: ReturnType<Form<T>["getContextValue"]>) => void;
+  /**
+   *
    * TODO(ade): sort out prop with children
    */
   children: any;
@@ -158,6 +163,7 @@ export class Form<T extends Record<string, any>> extends React.Component<FormPro
     }
 
     this.setState({ formState, errors, status });
+    this.props.onChange?.(this.getContextValue());
   };
 
   /**
