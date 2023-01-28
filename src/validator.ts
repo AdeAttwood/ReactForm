@@ -26,7 +26,10 @@ type ValidationOptions = {
  * the string is not empty then it will include a error message that will be
  * displayed to the user.
  */
-export type ValidationFunction<T> = (formState: T, options: ValidationOptions) => string | undefined;
+export type ValidationFunction<T> = (
+  formState: T,
+  options: ValidationOptions
+) => string | undefined | Promise<string | undefined>;
 
 /**
  * A list of rules that will can be validated. The key is a dot notation that
@@ -71,13 +74,15 @@ export class Validator<T> {
    */
   async validate(data: T): Promise<ErrorBag> {
     const validationErrors: ErrorBag = {};
-    for (const attribute of Object.keys(this.rules)) {
-      getAll(data as any, attribute).forEach(({ path, value }) => {
-        const errors = this.applyFunction(attribute, path, value, data);
-        if (errors.length > 0) {
-          validationErrors[path] = errors;
-        }
-      });
+    const toValidate = Object.keys(this.rules)
+      .map((attribute) => getAll(data as any, attribute).map((result) => ({ ...result, attribute })))
+      .flat();
+
+    for (const { path, value, attribute } of toValidate) {
+      const errors = await this.applyFunction(attribute, path, value, data);
+      if (errors.length > 0) {
+        validationErrors[path] = errors;
+      }
     }
 
     return validationErrors;
@@ -86,7 +91,7 @@ export class Validator<T> {
   /**
    * Validates a single attribute and returns the errors
    */
-  validateAttribute = async (attribute: string, data: T): Promise<string[]> => {
+  validateAttribute = (attribute: string, data: T): Promise<string[]> => {
     for (const validationPath of Object.keys(this.rules)) {
       for (const { path, value } of getAll(data as any, validationPath)) {
         if (path === attribute) {
@@ -95,18 +100,20 @@ export class Validator<T> {
       }
     }
 
-    return [];
+    return Promise.resolve([]);
   };
 
   /**
    * Calls all of the validation functions for an attribute
    */
-  private applyFunction(attribute: string, path: string, value: any, data: T) {
-    return this.rules[attribute]
-      .map((validationFunction) => validationFunction(data, { attribute, path, value }))
-      .filter((item): item is string => {
-        return typeof item === "string" && item.length > 0;
-      });
+  private async applyFunction(attribute: string, path: string, value: any, data: T) {
+    return (
+      await Promise.all(
+        this.rules[attribute].map((validationFunction) => validationFunction(data, { attribute, path, value }))
+      )
+    ).filter((item): item is string => {
+      return typeof item === "string" && item.length > 0;
+    });
   }
 }
 

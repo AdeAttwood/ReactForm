@@ -134,3 +134,12 @@ it("will use validation functions that are empty or undefined as valid", async (
   const result = await validator.validate({});
   expect(result).toStrictEqual({});
 });
+
+it("will take a async function in the validation", async () => {
+  const validator = createValidator({
+    userName: [() => Promise.resolve("This is an error")],
+  });
+
+  const result = await validator.validate({});
+  expect(result).toStrictEqual({ userName: ["This is an error"] });
+});
