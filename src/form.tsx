@@ -1,7 +1,7 @@
 import React from "react";
 import { FormContext } from "./form-context";
 
-import type { ErrorBag } from "./validator";
+import { ErrorBag, isErrorBagObject } from "./validator";
 import { get, set } from "./dot-notation";
 
 /**
@@ -147,11 +147,18 @@ export class Form<T extends Record<string, any>> extends React.Component<FormPro
       return this.setState({ errors, status });
     }
 
-    event.currentTarget;
-
     this.setState({ status: "submitting" });
-    await this.props.onSubmit({ formState: this.state.formState, event });
-    this.setState({ status });
+
+    try {
+      await this.props.onSubmit({ formState: this.state.formState, event });
+      this.setState({ status });
+    } catch (error) {
+      if (isErrorBagObject(error)) {
+        return this.setErrors(error.errorBag);
+      }
+
+      this.setState({ status: "error" });
+    }
   };
 
   /**
@@ -194,6 +201,13 @@ export class Form<T extends Record<string, any>> extends React.Component<FormPro
       return attributeErrors[0];
     }
   };
+
+  /**
+   * Sets the errors for a the form. This will overwrite any errors that are in
+   * the form and reset the status to the correct status based on the content
+   * of the errors.
+   */
+  setErrors = (errors: ErrorBag) => this.setState({ errors, status: this.getErrorStatus(errors) });
 
   /**
    * Queues an attribute to be validated after a timeout. If there is already a
