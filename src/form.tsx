@@ -41,7 +41,7 @@ export interface FormProps<T extends {}> {
   /**
    * TODO(ade): Sort out this doc
    */
-  onSubmit: (params: { formState: T }) => any | Promise<any>;
+  onSubmit: (params: { formState: T; event: React.SyntheticEvent<HTMLFormElement> }) => any | Promise<any>;
   /**
    * Callback that is called whenever an attribute is changed
    */
@@ -122,7 +122,7 @@ export class Form<T extends Record<string, any>> extends React.Component<FormPro
    * This will validate the form and call the `onSubmit` props if there are no errors.
    * If the form is invalid then the state will be populated with the errors.
    */
-  submit = async (event: React.SyntheticEvent) => {
+  submit = async (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
     this.setState({ status: "validating" });
     const errors = await this.props.validator?.validate(this.state.formState);
@@ -131,8 +131,10 @@ export class Form<T extends Record<string, any>> extends React.Component<FormPro
       return this.setState({ errors, status });
     }
 
+    event.currentTarget;
+
     this.setState({ status: "submitting" });
-    await this.props.onSubmit({ formState: this.state.formState });
+    await this.props.onSubmit({ formState: this.state.formState, event });
     this.setState({ status });
   };
 
