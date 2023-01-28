@@ -143,3 +143,18 @@ it("will take a async function in the validation", async () => {
   const result = await validator.validate({});
   expect(result).toStrictEqual({ userName: ["This is an error"] });
 });
+
+it("will clone a validator", async () => {
+  const validatorOne = createValidator({
+    userName: [() => Promise.resolve("This is an error")],
+  });
+
+  const validatorTwo = validatorOne.clone();
+  validatorTwo.addRule("email", () => "Email has an error");
+
+  const resultOne = await validatorOne.validate({});
+  expect(resultOne).toStrictEqual({ userName: ["This is an error"] });
+
+  const resultTwo = await validatorTwo.validate({});
+  expect(resultTwo).toStrictEqual({ userName: ["This is an error"], email: ["Email has an error"] });
+});

@@ -57,6 +57,16 @@ export class Validator<T> {
   }
 
   /**
+   * Creates a new validator with all the same rules.
+   */
+  clone() {
+    // Shallow clone the rules into the new validators so the we are not
+    // passing along the reference. This is so the `addRule` function will not
+    // add to both validators.
+    return new Validator<T>({ ...this.rules });
+  }
+
+  /**
    * Add a new rule to the validator. If a rules already exists for the
    * attribute then the function will be added to it.
    */
