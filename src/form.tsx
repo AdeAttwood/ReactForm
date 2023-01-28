@@ -9,6 +9,22 @@ import { get, set } from "./dot-notation";
  */
 export type FormStatus = "clean" | "error" | "dirty" | "validating" | "submitting";
 
+type OnSubmitParams<T> = {
+  /**
+   * The current state of the form at submit time
+   */
+  formState: T;
+  /**
+   * The raw React submit event passed from the React onSubmit callback
+   */
+  event: React.SyntheticEvent<HTMLFormElement>;
+};
+
+/**
+ * Function callback that will be called when the form is submitted
+ */
+export type OnSubmitFunction<T = {}> = (params: OnSubmitParams<T>) => any | Promise<any>;
+
 export interface FormProps<T extends {}> {
   /**
    * The initial form state
@@ -41,7 +57,7 @@ export interface FormProps<T extends {}> {
   /**
    * TODO(ade): Sort out this doc
    */
-  onSubmit: (params: { formState: T; event: React.SyntheticEvent<HTMLFormElement> }) => any | Promise<any>;
+  onSubmit: OnSubmitFunction<T>;
   /**
    * Callback that is called whenever an attribute is changed
    */
