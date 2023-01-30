@@ -3515,16 +3515,16 @@ jest-util@^29.0.0, jest-util@^29.3.1, jest-util@^29.4.1:
     picomatch "^2.2.3"
 
 jest-validate@^29.3.1:
-  version "29.3.1"
-  resolved "https://registry.yarnpkg.com/jest-validate/-/jest-validate-29.3.1.tgz#d56fefaa2e7d1fde3ecdc973c7f7f8f25eea704a"
-  integrity sha512-N9Lr3oYR2Mpzuelp1F8negJR3YE+L1ebk1rYA5qYo9TTY3f9OWdptLoNSPP9itOCBIRBqjt/S5XHlzYglLN67g==
+  version "29.4.1"
+  resolved "https://registry.yarnpkg.com/jest-validate/-/jest-validate-29.4.1.tgz#0d5174510415083ec329d4f981bf6779211f17e9"
+  integrity sha512-qNZXcZQdIQx4SfUB/atWnI4/I2HUvhz8ajOSYUu40CSmf9U5emil8EDHgE7M+3j9/pavtk3knlZBDsgFvv/SWw==
   dependencies:
-    "@jest/types" "^29.3.1"
+    "@jest/types" "^29.4.1"
     camelcase "^6.2.0"
     chalk "^4.0.0"
     jest-get-type "^29.2.0"
     leven "^3.1.0"
-    pretty-format "^29.3.1"
+    pretty-format "^29.4.1"
 
 jest-watcher@^29.3.1:
   version "29.3.1"
