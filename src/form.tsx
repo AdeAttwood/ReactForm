@@ -67,6 +67,11 @@ export interface FormProps<T extends {}> {
    * TODO(ade): sort out prop with children
    */
   children: any;
+  /**
+   * Errors for the form to be populated with with initializing the form. This
+   * can be used to populated errors from the server on first page load.
+   */
+  errors?: ErrorBag;
 }
 
 /**
@@ -119,7 +124,7 @@ export class Form<T extends Record<string, any>> extends React.Component<FormPro
     /**
      * The internal status of the form
      */
-    status: "clean",
+    status: this.getErrorStatus(this.props.errors || {}),
     /**
      * The form state of the current form
      */
@@ -129,7 +134,7 @@ export class Form<T extends Record<string, any>> extends React.Component<FormPro
      * value is an array of string that are the error messages returned from the
      * validation functions in the rules.
      */
-    errors: {},
+    errors: this.props.errors || {},
   };
 
   /**
