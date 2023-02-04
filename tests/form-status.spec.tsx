@@ -20,14 +20,14 @@ const createPromise = () => {
 };
 
 type ContextReference = { current: ReturnType<typeof useFormContext> | undefined };
-const renderForm = ({ onSubmit, validator, formContext }: any) => {
+const renderForm = ({ onSubmit, validator, formContext, errors }: any) => {
   const MockComponent = () => {
     formContext.current = useFormContext();
     return null;
   };
 
   render(
-    <Form initialValues={{}} validator={validator} onSubmit={onSubmit}>
+    <Form initialValues={{}} validator={validator} onSubmit={onSubmit} errors={errors}>
       <MockComponent />
       <Input attribute="test-input" />
       <button>submit</button>
@@ -87,4 +87,18 @@ it("will have the error status", async () => {
 
   await act(async () => await userEvent.click(screen.getByText("submit")));
   await waitFor(() => expect(formContext.current?.status).toBe("error"));
+});
+
+it("will have the error status when errors are passed in as props", async () => {
+  const onSubmit = jest.fn();
+  const formContext: ContextReference = { current: undefined };
+  renderForm({ onSubmit, formContext, errors: { "test-input": ["An error"] } });
+  expect(formContext.current?.status).toBe("error");
+});
+
+it("will not have an error status if an empty error object is passed in", async () => {
+  const onSubmit = jest.fn();
+  const formContext: ContextReference = { current: undefined };
+  renderForm({ onSubmit, formContext, errors: {} });
+  expect(formContext.current?.status).toBe("clean");
 });
