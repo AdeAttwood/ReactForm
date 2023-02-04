@@ -35,6 +35,10 @@ const navData: LinkSetProps[] = [
         title: "Validation",
         href: "/validation",
       },
+      {
+        title: "Submitting",
+        href: "/submit",
+      },
     ],
   },
   {

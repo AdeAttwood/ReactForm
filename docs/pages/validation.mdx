@@ -67,4 +67,36 @@ const validator = createValidator({
 });
 ```
 
+Validation objects can also be cloned, so you can add extra rules. This can be
+used to add extra validation that will only run on the server. On the client
+validator you will get all the validation rules that can be run in the browser,
+in the server validator you get all the rules from the client and extra ones
+that can access databases to-do extra checks.
+
+```js
+const clientValidator = createValidator({
+  email: [(({ email }) => isEmpty(email) && "Email cannot be blank")]
+})
+
+const serverValidator = clientValidator
+  .clone()
+  .addRule('email', ({ email }) => isInDb(email) && "Email must be unique")
+```
+
+Async validators are also allowed if you need to await http or database calls
+when building validators.
+
+```js
+const validator = createValidator({
+  url: [
+    async ({ url }) => {
+      const result = await fetch(url, { method: "HEAD" });
+      if (result.status >= 400) {
+        return `${url} is not accessible`;
+      }
+    },
+  ],
+});
+```
+
 export default ({ children }) => <Layout meta={meta}>{children}</Layout>

@@ -1,0 +1,51 @@
+import Layout from "../layouts/main";
+
+export const meta = {
+  title: "Submit",
+};
+
+# Submit
+
+Submit the form is done with the onSubmit prop. This function takes in the form
+state, so you can send the data to your server. It will only be called if the
+validation passes, so you will not be sending bad data to the server. The
+function can be async, it will be awaited when the form is submitted. While the
+promise is resolving, the form status will be set to "submitting".
+
+To add errors to the form state if the server request fails, you can throw an
+error that has errorBag property on it. The contents of this will be set as the
+form errors, removing any errors that are currently there.
+
+```js
+const onSubmit = ({ formState }) => {
+  return fetch("/create-post", { 
+    method: "POST",
+    body: JSON.stringify(formState),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+  .then((res) => res.json())
+  .then((res) => {
+    if (res.errorBag) {
+      throw res;
+    }
+
+    // Do something with the result
+  });
+};
+```
+
+Native form submissions can be done by calling the `submit` function on the DOM
+node. This can be called by using the event that is passed into the `onSubmit`
+callback.
+
+```js
+const onSubmit = ({ event }) => {
+  event.target.method = "POST";
+  event.target.submit();
+}
+```
+
+
+export default ({ children }) => <Layout meta={meta}>{children}</Layout>
