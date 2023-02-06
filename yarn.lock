@@ -1072,7 +1072,12 @@
   resolved "https://registry.yarnpkg.com/@types/ms/-/ms-0.7.31.tgz#31b7ca6407128a3d2bbc27fe2d21b345397f6197"
   integrity sha512-iiUgKzV9AuaEkZqkOLDIvlQiL6ltuZd9tGcW3gwpnX8JbuiuhFlEGmmFXEXkN50Cvq7Os88IY2v0dkDqXYWVgA==
 
-"@types/node@*", "@types/node@18.11.18":
+"@types/node@*":
+  version "18.11.19"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.19.tgz#35e26df9ec441ab99d73e99e9aca82935eea216d"
+  integrity sha512-YUgMWAQBWLObABqrvx8qKO1enAvBUdjZOAWQ5grBAkp5LQv45jBvYKZ3oFS9iKRCQyFjqw6iuEa1vmFqtxYLZw==
+
+"@types/node@18.11.18":
   version "18.11.18"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.18.tgz#8dfb97f0da23c2293e554c5a50d61ef134d7697f"
   integrity sha512-DHQpWGjyQKSHj3ebjFI/wRKcqQcdR+MoFBygntYOZytCqNfkd2ZC4ARDJ2DQqhjH5p85Nnd3jhUJIXrszFX/JA==
@@ -1150,9 +1155,9 @@
   integrity sha512-iO9ZQHkZxHn4mSakYV0vFHAVDyEOIJQrV2uZ06HxEPcx+mt8swXoZHIbaaJ2crJYFfErySgktuTZ3BeLz+XmFA==
 
 "@types/yargs@^17.0.8":
-  version "17.0.20"
-  resolved "https://registry.yarnpkg.com/@types/yargs/-/yargs-17.0.20.tgz#107f0fcc13bd4a524e352b41c49fe88aab5c54d5"
-  integrity sha512-eknWrTHofQuPk2iuqDm1waA7V6xPlbgBoaaXEgYkClhLOnB0TtbW+srJaOToAgawPxPlHQzwypFA2bhZaUGP5A==
+  version "17.0.22"
+  resolved "https://registry.yarnpkg.com/@types/yargs/-/yargs-17.0.22.tgz#7dd37697691b5f17d020f3c63e7a45971ff71e9a"
+  integrity sha512-pet5WJ9U8yPVRhkwuEIp5ktAeAqRZOq4UdAyWLWzxbtpyXnzbtLdKiXAjJzi/KLmPGS9wk86lUFWZFN6sISo4g==
   dependencies:
     "@types/yargs-parser" "*"
 
@@ -3282,15 +3287,15 @@ jest-docblock@^29.2.0:
     detect-newline "^3.0.0"
 
 jest-each@^29.3.1:
-  version "29.3.1"
-  resolved "https://registry.yarnpkg.com/jest-each/-/jest-each-29.3.1.tgz#bc375c8734f1bb96625d83d1ca03ef508379e132"
-  integrity sha512-qrZH7PmFB9rEzCSl00BWjZYuS1BSOH8lLuC0azQE9lQrAx3PWGKHTDudQiOSwIy5dGAJh7KA0ScYlCP7JxvFYA==
+  version "29.4.1"
+  resolved "https://registry.yarnpkg.com/jest-each/-/jest-each-29.4.1.tgz#05ce9979e7486dbd0f5d41895f49ccfdd0afce01"
+  integrity sha512-QlYFiX3llJMWUV0BtWht/esGEz9w+0i7BHwODKCze7YzZzizgExB9MOfiivF/vVT0GSQ8wXLhvHXh3x2fVD4QQ==
   dependencies:
-    "@jest/types" "^29.3.1"
+    "@jest/types" "^29.4.1"
     chalk "^4.0.0"
     jest-get-type "^29.2.0"
-    jest-util "^29.3.1"
-    pretty-format "^29.3.1"
+    jest-util "^29.4.1"
+    pretty-format "^29.4.1"
 
 jest-environment-jsdom@^29.3.1:
   version "29.3.1"
