@@ -1,3 +1,14 @@
+## [v0.0.1-alpha.4](https://github.com/AdeAttwood/ReactForm/compare/v0.0.1-alpha.3...v0.0.1-alpha.4) (2023-02-07)
+
+### Features
+
+* add `validator.clone()` function ([25dc286](https://github.com/AdeAttwood/ReactForm/commit/25dc28670eb4d0e206e1856db3495cebd4b4a6c9))
+* allow a validation function to be async ([29e1125](https://github.com/AdeAttwood/ReactForm/commit/29e11257ca2309af757e52ea2dad3ef0a61e08de))
+* allow errors to be passed in as props ([fce8f65](https://github.com/AdeAttwood/ReactForm/commit/fce8f65cafa2cf51934b1ef04b6b82c270af6c94))
+* allow errors to be set from the onSubmit callback ([a745f3a](https://github.com/AdeAttwood/ReactForm/commit/a745f3a931fc313fa781ab61c98fd902cce4fc3b))
+* pass the event to the onSubmit callback ([1550d48](https://github.com/AdeAttwood/ReactForm/commit/1550d4837bff74cfc1dd8f5f5a1817a584f69ace))
+* split out the `OnSubmitFunction` type ([29176f4](https://github.com/AdeAttwood/ReactForm/commit/29176f4d3c62c08d493c50508b272d907d155d25))
+
 ## [v0.0.1-alpha.3](https://github.com/AdeAttwood/ReactForm/compare/v0.0.1-alpha.2...v0.0.1-alpha.3) (2023-01-20)
 
 ### Features
