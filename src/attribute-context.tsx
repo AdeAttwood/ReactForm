@@ -14,6 +14,11 @@ export type AttributeContextType<T> = {
    * A callback function that will remove an item from the options at the index
    */
   remove?: (index: number) => void;
+  /**
+   * A callback that will reorder the options in the list. This will only apply
+   * to a list group input
+   */
+  reorder?: (from: number, to: number) => void;
 };
 
 /**

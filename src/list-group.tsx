@@ -47,13 +47,21 @@ export function useListAttribute<T>(attribute: string, newItem: () => T) {
     }
   };
 
-  return { id, error, value, set, add, remove };
+  const reorder = (from: number, to: number) => {
+    const newValue = [...value];
+    const [removed] = newValue.splice(from, 1);
+    newValue.splice(to, 0, removed);
+
+    set(newValue);
+  };
+
+  return { id, error, value, set, add, remove, reorder };
 }
 
 export const ListGroup: FC<ListGroupProps> = ({ children, attribute, newItem }) => {
-  const { value: options, add, remove } = useListAttribute(attribute, newItem || defaultNewItem);
+  const { value: options, add, remove, reorder } = useListAttribute(attribute, newItem || defaultNewItem);
 
-  return React.createElement(AttributeContextProvider, { attribute, options, remove }, children({ add }));
+  return React.createElement(AttributeContextProvider, { attribute, options, remove, reorder }, children({ add }));
 };
 
 ListGroup.defaultProps = {

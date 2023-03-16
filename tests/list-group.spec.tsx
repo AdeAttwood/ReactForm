@@ -1,8 +1,8 @@
 import React from "react";
-import { act, render } from "@testing-library/react";
+import { act, render, renderHook } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Form from "../src/form";
-import { ListGroup, ListOption } from "../src/list-group";
+import { ListGroup, ListOption, useListAttribute } from "../src/list-group";
 import { InputGroup } from "../src/input-group";
 
 it("will render and submit with a radio list", async () => {
@@ -70,4 +70,25 @@ it("will render and submit with a radio list", async () => {
 
   expect(onSubmit).toBeCalledTimes(4);
   expect(onSubmit).toBeCalledWith(expect.objectContaining({ formState: { tags: ["Tag Two"] } }));
+});
+
+it("will reorder the items", async () => {
+  const initialValues = { myList: ["One", "Two", "Three"] };
+  const hook = renderHook(() => useListAttribute("myList", () => ""), {
+    wrapper: ({ children }: any) => {
+      return (
+        <Form onSubmit={jest.fn} initialValues={initialValues}>
+          {children}
+        </Form>
+      );
+    },
+  });
+
+  expect(hook.result.current.value).toStrictEqual(["One", "Two", "Three"]);
+
+  await act(async () => {
+    hook.result.current.reorder(0, 3);
+  });
+
+  expect(hook.result.current.value).toStrictEqual(["Two", "Three", "One"]);
 });
