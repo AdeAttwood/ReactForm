@@ -1,35 +1,19 @@
-const consoleErrorMock = jest.spyOn(console, "error");
-const consoleWarnMock = jest.spyOn(console, "warn");
-
-function getMessageForMock(prefix: string, calls: Array<Array<string>>) {
-  const messages: { [k: string]: number } = {};
-  for (const [message] of calls) {
-    if (!(message in messages)) {
-      messages[message] = 0;
-    }
-
-    messages[message]++;
+/**
+ * Throws an error amending the call stack to remove the first call. This is to
+ * trick the react console logger into thinking the call came one call earlier.
+ * Then it will print out a much more logical errors and code snippets.
+ */
+function throwError(error: Error) {
+  if (!error.stack) {
+    throw new Error("Error must have a stack");
   }
 
-  return Object.entries(messages)
-    .map(([message, count]) => `${prefix} (${count}x): ${message}`)
-    .join("\n")
-    .trim();
+  const lines = error.stack.split("\n");
+  lines.splice(1, 1);
+  error.stack = lines.join("\n");
+
+  throw error;
 }
 
-beforeEach(() => {
-  consoleErrorMock.mockReset();
-  consoleWarnMock.mockReset();
-});
-afterAll(() => {
-  consoleErrorMock.mockRestore();
-  consoleWarnMock.mockRestore();
-});
-
-afterEach(() => {
-  const errors = getMessageForMock("ERROR", consoleErrorMock.mock.calls);
-  const warnings = getMessageForMock("WARNING", consoleWarnMock.mock.calls);
-  if (errors || warnings) {
-    throw new Error(`Console must not throw errors or warnings\n\n${errors}\n${warnings}`);
-  }
-});
+jest.spyOn(console, "error").mockImplementation(() => throwError(new Error()));
+jest.spyOn(console, "warn").mockImplementation(() => throwError(new Error()));
