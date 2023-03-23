@@ -1,3 +1,15 @@
+## [v0.0.1-alpha.5](https://github.com/AdeAttwood/ReactForm/compare/v0.0.1-alpha.4...v0.0.1-alpha.5) (2023-03-23)
+
+### Bug Fixes
+
+* export use attribute hooks ([996267f](https://github.com/AdeAttwood/ReactForm/commit/996267f1f73e9c36488c7d7bf1965b0f9fb3c742)), closes [#150](https://github.com/AdeAttwood/ReactForm/issues/150)
+* use es5 syntax for the package build ([6a44b18](https://github.com/AdeAttwood/ReactForm/commit/6a44b18ea56afc6061e6a90d488f01a994c0a4c5)), closes [#149](https://github.com/AdeAttwood/ReactForm/issues/149)
+
+
+### Features
+
+* implement reorder on a list attribute ([acfee5e](https://github.com/AdeAttwood/ReactForm/commit/acfee5e48ff67e95dcc20bf07594b5ad3a31ed8b)), closes [#144](https://github.com/AdeAttwood/ReactForm/issues/144)
+
 ## [v0.0.1-alpha.4](https://github.com/AdeAttwood/ReactForm/compare/v0.0.1-alpha.3...v0.0.1-alpha.4) (2023-02-07)
 
 ### Features
