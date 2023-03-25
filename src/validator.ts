@@ -29,7 +29,7 @@ type ValidationOptions = {
 export type ValidationFunction<T> = (
   formState: T,
   options: ValidationOptions
-) => string | undefined | Promise<string | undefined>;
+) => string | null | undefined | Promise<string | null | undefined>;
 
 /**
  * A list of rules that will can be validated. The key is a dot notation that
