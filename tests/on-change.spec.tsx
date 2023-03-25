@@ -22,4 +22,5 @@ it("will call onChange when a attribute is changed", async () => {
   });
 
   expect(onChange).toHaveBeenCalled();
+  expect(onChange).toBeCalledWith(expect.objectContaining({ formState: { "test-input": "A" } }), "test-input");
 });
