@@ -30,5 +30,5 @@ jobs:
         env:
           CC_TEST_REPORTER_ID: 8ebe93d320ffb11863c699cc0db2ab927e50d2f5b08a52ffaa240a63202ea48d
         with:
-          coverageCommand: yarn test --coverage
+          coverageCommand: yarn test --coverage --maxWorkers=2
           debug: true
