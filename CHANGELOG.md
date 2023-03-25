@@ -1,3 +1,16 @@
+## [v0.0.1-alpha.6](https://github.com/AdeAttwood/ReactForm/compare/v0.0.1-alpha.5...v0.0.1-alpha.6) (2023-03-25)
+
+### Bug Fixes
+
+* add main prop to the package.json ([c92531c](https://github.com/AdeAttwood/ReactForm/commit/c92531ce1094299bcbbcec5c7bbf5ea04cc49f6d))
+
+
+### Features
+
+* add better generic support for useAttribute hook ([7682422](https://github.com/AdeAttwood/ReactForm/commit/7682422d2a64dcc7a965d9c36ffc73df0a46e937)), closes [#152](https://github.com/AdeAttwood/ReactForm/issues/152)
+* allow null to be returned from a validation function ([bcdd9f3](https://github.com/AdeAttwood/ReactForm/commit/bcdd9f3ec112837dfbc35b918bed8bcd3bfba64c)), closes [#170](https://github.com/AdeAttwood/ReactForm/issues/170)
+* pass the changed attribute though the onChange form callback ([e751896](https://github.com/AdeAttwood/ReactForm/commit/e751896e6d97c33c12ad87ec5c7fb052b051730e)), closes [#143](https://github.com/AdeAttwood/ReactForm/issues/143)
+
 ## [v0.0.1-alpha.5](https://github.com/AdeAttwood/ReactForm/compare/v0.0.1-alpha.4...v0.0.1-alpha.5) (2023-03-23)
 
 ### Bug Fixes
