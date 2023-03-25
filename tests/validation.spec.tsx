@@ -126,9 +126,9 @@ it("will use a validation function that returns undefined", async () => {
   expect(result).toStrictEqual({ userName: ["Error message"] });
 });
 
-it("will use validation functions that are empty or undefined as valid", async () => {
+it("will use validation functions that are empty, null or undefined as valid", async () => {
   const validator = createValidator({
-    userName: [() => "", () => undefined],
+    userName: [() => "", () => undefined, () => null],
   });
 
   const result = await validator.validate({});
