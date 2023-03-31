@@ -146,9 +146,9 @@ export class Form<T extends Record<string, any>> extends React.Component<FormPro
   submit = async (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
     this.setState({ status: "validating" });
-    const errors = await this.props.validator?.validate(this.state.formState);
-    const status = this.getErrorStatus(errors || {});
-    if (errors && status === "error") {
+    const errors = await this.validate(this.state.formState);
+    const status = this.getErrorStatus(errors);
+    if (status === "error") {
       return this.setState({ errors, status });
     }
 
@@ -266,6 +266,14 @@ export class Form<T extends Record<string, any>> extends React.Component<FormPro
     return await fun(attribute, formState);
   };
 
+  validate = async (formState: T): Promise<ErrorBag> => {
+    if (!this.props.validator?.validate) {
+      return {};
+    }
+
+    return await this.props.validator.validate(formState);
+  };
+
   /**
    * Get if the error bag has errors or is valid. In this case it will return
    * "clean" to indicate the form is valid.
@@ -279,13 +287,16 @@ export class Form<T extends Record<string, any>> extends React.Component<FormPro
    */
   private getContextValue = () => {
     return {
-      status: this.state.status,
-      formState: this.state.formState,
       errors: this.state.errors,
       firstError: this.firstError,
+      formState: this.state.formState,
       getAttribute: this.getAttribute,
       setAttribute: this.setAttribute,
+      setErrors: this.setErrors,
+      status: this.state.status,
       submit: this.submit,
+      validate: this.validate,
+      validateAttribute: this.validateAttribute,
     };
   };
 
