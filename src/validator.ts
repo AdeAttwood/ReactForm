@@ -128,19 +128,6 @@ export class Validator<T> {
 }
 
 /**
- * Tests to see if an object can be
- */
-export function isErrorBagObject(object: any): object is { errorBag: ErrorBag } {
-  return (
-    object &&
-    typeof object === "object" &&
-    "errorBag" in object &&
-    object.errorBag &&
-    typeof object.errorBag === "object"
-  );
-}
-
-/**
  * Helper function to create the validator functional style
  */
 export function createValidator<T = any>(rules: Rules<T> = {}) {

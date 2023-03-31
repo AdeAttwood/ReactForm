@@ -2,7 +2,7 @@ import React from "react";
 
 import { get, set } from "./dot-notation";
 import { FormContext } from "./form-context";
-import { ErrorBag, isErrorBagObject } from "./validator";
+import { ErrorBag } from "./validator";
 
 /**
  * All the available values that the status of the form could be
@@ -153,17 +153,8 @@ export class Form<T extends Record<string, any>> extends React.Component<FormPro
     }
 
     this.setState({ status: "submitting" });
-
-    try {
-      await this.props.onSubmit({ formState: this.state.formState, event });
-      this.setState({ status });
-    } catch (error) {
-      if (isErrorBagObject(error)) {
-        return this.setErrors(error.errorBag);
-      }
-
-      this.setState({ status: "error" });
-    }
+    const result = await this.props.onSubmit({ formState: this.state.formState, event });
+    this.setErrors(typeof result === "object" ? result : {});
   };
 
   /**

@@ -30,9 +30,7 @@ it("will call onSubmit", async () => {
 
 it("will set the errors from the onSubmit callback", async () => {
   const onSubmit: OnSubmitFunction = () => {
-    throw {
-      errorBag: { "test-input": ["This is a error from the errors"] },
-    };
+    return { "test-input": ["This is a error from the errors"] };
   };
 
   render(
@@ -51,7 +49,7 @@ it("will set the errors from the onSubmit callback", async () => {
 
 it("will set the status to clean if the errors are cleared", async () => {
   const onSubmit: OnSubmitFunction = () => {
-    throw { errorBag: {} };
+    return {};
   };
 
   function StatusComponent() {
