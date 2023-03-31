@@ -66,7 +66,7 @@ it("validate and submit", async () => {
   });
 
   await waitFor(() => expect(formContext.current?.status).toBe("validating"), { timeout: 5000 });
-  validateResolve();
+  validateResolve({});
 
   await waitFor(() => expect(formContext.current?.status).toBe("submitting"), { timeout: 5000 });
   onSubmitResolve();

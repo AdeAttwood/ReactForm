@@ -40,7 +40,7 @@ it("will validate the data with a raw function", async () => {
 });
 
 it("will validate after input delay", async () => {
-  const validate = jest.fn();
+  const validate = jest.fn(async () => ({}));
   const validateAttribute = jest.fn(async () => []);
 
   render(
