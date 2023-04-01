@@ -1,9 +1,10 @@
-import React from "react";
 import { act, render, renderHook } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import React from "react";
+
 import Form from "../src/form";
-import { ListGroup, ListOption, useListAttribute } from "../src/list-group";
 import { InputGroup } from "../src/input-group";
+import { ListGroup, ListOption, useListAttribute } from "../src/list-group";
 
 it("will render and submit with a radio list", async () => {
   const onSubmit = jest.fn();
