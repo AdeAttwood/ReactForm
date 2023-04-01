@@ -1,10 +1,10 @@
-import React from "react";
-import { render, screen, cleanup, act } from "@testing-library/react";
+import { act, cleanup, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import React from "react";
 
 import Form, { OnSubmitFunction } from "../src/form";
-import Input from "./input-component";
 import { useFormContext } from "../src/form-context";
+import Input from "./input-component";
 
 afterEach(cleanup);
 

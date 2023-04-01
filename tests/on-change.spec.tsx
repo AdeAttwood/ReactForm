@@ -1,6 +1,6 @@
-import React from "react";
-import { render, screen, cleanup, act } from "@testing-library/react";
+import { act, cleanup, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import React from "react";
 
 import Form from "../src/form";
 import Input from "./input-component";

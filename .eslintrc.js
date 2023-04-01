@@ -14,12 +14,14 @@ module.exports = {
     "plugin:react-hooks/recommended",
     "plugin:react/recommended",
   ],
-  plugins: ["react", "prettier"],
+  plugins: ["react", "prettier", "simple-import-sort"],
   settings: {
     jsdoc: { mode: "typescript" },
     react: { version: "detect" },
   },
   rules: {
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
     "@next/next/no-html-link-for-pages": ["error", "docs/pages/"],
     "react/prop-types": "off",
     "@typescript-eslint/no-explicit-any": "off",

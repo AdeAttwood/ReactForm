@@ -1,9 +1,9 @@
-import React from "react";
+import Head from "next/head";
 import Link from "next/link";
+import React from "react";
 
 import logo from "../assets/logo.svg";
 import styles from "./main.module.scss";
-import Head from "next/head";
 
 interface LinkSetProps {
   title: string;

@@ -1,8 +1,8 @@
 import React from "react";
-import { FormContext } from "./form-context";
 
-import { ErrorBag, isErrorBagObject } from "./validator";
 import { get, set } from "./dot-notation";
+import { FormContext } from "./form-context";
+import { ErrorBag, isErrorBagObject } from "./validator";
 
 /**
  * All the available values that the status of the form could be
