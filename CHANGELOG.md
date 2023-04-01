@@ -1,3 +1,9 @@
+## [v0.0.1-alpha.7](https://github.com/AdeAttwood/ReactForm/compare/v0.0.1-alpha.6...v0.0.1-alpha.7) (2023-04-01)
+
+### Features
+
+* expose validate, validateAttribute and setErrors to the context ([18f0610](https://github.com/AdeAttwood/ReactForm/commit/18f061001fe961ec846596490f1f0cfdbfcbfb71))
+
 ## [v0.0.1-alpha.6](https://github.com/AdeAttwood/ReactForm/compare/v0.0.1-alpha.5...v0.0.1-alpha.6) (2023-03-25)
 
 ### Bug Fixes
