@@ -1,8 +1,9 @@
+import { act, fireEvent, render, waitFor } from "@testing-library/react";
 import React from "react";
-import { render, fireEvent, waitFor, act } from "@testing-library/react";
+
 import Form from "../src/form";
-import Input from "./input-component";
 import createValidator from "../src/validator";
+import Input from "./input-component";
 
 interface FormModel {
   input: string;

@@ -1,5 +1,5 @@
+import { act, cleanup, renderHook } from "@testing-library/react";
 import React from "react";
-import { renderHook, act, cleanup } from "@testing-library/react";
 
 import { Form } from "../src/form";
 import { useAttribute, useBooleanAttribute, useStringAttribute } from "../src/use-attribute";

@@ -1,8 +1,9 @@
-import React from "react";
 import { act, fireEvent, render, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import Form from "../src/form";
+import React from "react";
+
 import CheckGroup from "../src/check-group";
+import Form from "../src/form";
 import createValidator from "../src/validator";
 
 it("will render and submit with a checkbox attribute", async () => {

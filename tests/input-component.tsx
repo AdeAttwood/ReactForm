@@ -1,4 +1,5 @@
 import React from "react";
+
 import InputGroup from "../src/input-group";
 
 export const Input = ({ attribute, type }: { attribute: string; type?: string }) => (

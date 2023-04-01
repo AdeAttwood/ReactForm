@@ -1,6 +1,7 @@
-import React, { FC } from "react";
-import { render, fireEvent, waitFor, act } from "@testing-library/react";
+import { act, fireEvent, render, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import React, { FC } from "react";
+
 import Form from "../src/form";
 import SelectGroup from "../src/select-group";
 

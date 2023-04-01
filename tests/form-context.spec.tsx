@@ -1,7 +1,7 @@
+import { act, renderHook } from "@testing-library/react";
 import React from "react";
-import { renderHook, act } from "@testing-library/react";
 
-import { Form, useFormContext, createValidator } from "../src";
+import { createValidator, Form, useFormContext } from "../src";
 
 it("will allow you to validate the form from the context", async () => {
   const onSubmit = jest.fn();
