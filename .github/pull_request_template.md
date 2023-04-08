@@ -14,6 +14,7 @@ Ref #(issue)
 
 <!-- Please remove any points that are not relevant for your pull request -->
 
+- [x] Developer chore (A change to CI or something that does not affect the package features)
 - [x] Bug fix (non-breaking change which fixes an issue)
 - [x] New feature (non-breaking change which adds functionality)
 - [x] Breaking change (fix or feature that would cause existing functionality to not work as expected)
