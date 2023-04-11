@@ -1,4 +1,4 @@
-import { act, cleanup, render, screen } from "@testing-library/react";
+import { cleanup, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import React from "react";
 
@@ -17,9 +17,7 @@ it("will call onChange when a attribute is changed", async () => {
     </Form>
   );
 
-  await act(async () => {
-    await userEvent.type(screen.getByLabelText("test-input"), "A");
-  });
+  await userEvent.type(screen.getByLabelText("test-input"), "A");
 
   expect(onChange).toHaveBeenCalled();
   expect(onChange).toBeCalledWith(expect.objectContaining({ formState: { "test-input": "A" } }), "test-input");

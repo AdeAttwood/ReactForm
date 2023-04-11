@@ -1,4 +1,4 @@
-import { act, cleanup, render, screen } from "@testing-library/react";
+import { cleanup, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import React from "react";
 
@@ -21,10 +21,7 @@ it("will call onSubmit", async () => {
     </Form>
   );
 
-  await act(async () => {
-    await userEvent.click(screen.getByText("Submit"));
-  });
-
+  await userEvent.click(screen.getByText("Submit"));
   expect(onSubmitMock).toHaveBeenCalled();
 });
 
@@ -40,10 +37,7 @@ it("will set the errors from the onSubmit callback", async () => {
     </Form>
   );
 
-  await act(async () => {
-    await userEvent.click(screen.getByText("Submit"));
-  });
-
+  await userEvent.click(screen.getByText("Submit"));
   expect(screen.getByText("This is a error from the errors"));
 });
 
@@ -65,9 +59,6 @@ it("will set the status to clean if the errors are cleared", async () => {
     </Form>
   );
 
-  await act(async () => {
-    await userEvent.click(screen.getByText("Submit"));
-  });
-
+  await userEvent.click(screen.getByText("Submit"));
   expect(screen.getByText("Status: clean"));
 });

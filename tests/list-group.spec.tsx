@@ -38,36 +38,28 @@ it("will render and submit with a radio list", async () => {
     </Form>
   );
 
-  await act(async () => {
-    await userEvent.click(getByText("Add Tag"));
-    await userEvent.click(getByText("Submit"));
-  });
+  await userEvent.click(getByText("Add Tag"));
+  await userEvent.click(getByText("Submit"));
 
   expect(onSubmit).toBeCalledTimes(1);
   expect(onSubmit).toBeCalledWith(expect.objectContaining({ formState: { tags: [""] } }));
 
-  await act(async () => {
-    await userEvent.type(getByLabelText("Tag 1"), "Tag One");
-    await userEvent.click(getByText("Submit"));
-  });
+  await userEvent.type(getByLabelText("Tag 1"), "Tag One");
+  await userEvent.click(getByText("Submit"));
 
   expect(onSubmit).toBeCalledTimes(2);
   expect(onSubmit).toBeCalledWith(expect.objectContaining({ formState: { tags: ["Tag One"] } }));
 
   await act(async () => userEvent.click(getByText("Add Tag")));
 
-  await act(async () => {
-    await userEvent.type(getByLabelText("Tag 2"), "Tag Two");
-    await userEvent.click(getByText("Submit"));
-  });
+  await userEvent.type(getByLabelText("Tag 2"), "Tag Two");
+  await userEvent.click(getByText("Submit"));
 
   expect(onSubmit).toBeCalledTimes(3);
   expect(onSubmit).toBeCalledWith(expect.objectContaining({ formState: { tags: ["Tag One", "Tag Two"] } }));
 
-  await act(async () => {
-    await userEvent.click(getByText("Remove 1"));
-    await userEvent.click(getByText("Submit"));
-  });
+  await userEvent.click(getByText("Remove 1"));
+  await userEvent.click(getByText("Submit"));
 
   expect(onSubmit).toBeCalledTimes(4);
   expect(onSubmit).toBeCalledWith(expect.objectContaining({ formState: { tags: ["Tag Two"] } }));
