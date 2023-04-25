@@ -1,5 +1,6 @@
 export * from "./attribute-context";
 export * from "./check-group";
+export * from "./dot-notation";
 export * from "./form";
 export * from "./form-context";
 export * from "./input-group";
