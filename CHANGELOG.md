@@ -1,3 +1,9 @@
+## [v0.0.1-alpha.8](https://github.com/AdeAttwood/ReactForm/compare/v0.0.1-alpha.7...v0.0.1-alpha.8) (2023-04-26)
+
+### Features
+
+* export the dot notation functions ([53ca3f5](https://github.com/AdeAttwood/ReactForm/commit/53ca3f514a61aca7a6f2fdc0d971b258ba022f16))
+
 ## [v0.0.1-alpha.7](https://github.com/AdeAttwood/ReactForm/compare/v0.0.1-alpha.6...v0.0.1-alpha.7) (2023-04-01)
 
 ### Features
