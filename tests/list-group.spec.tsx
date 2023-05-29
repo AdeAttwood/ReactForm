@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import React from "react";
 
 import Form from "../src/form";
+import { useFormContext } from "../src/form-context";
 import { InputGroup } from "../src/input-group";
 import { ListGroup, ListOption, useListAttribute } from "../src/list-group";
 
@@ -84,4 +85,33 @@ it("will reorder the items", async () => {
   });
 
   expect(hook.result.current.value).toStrictEqual(["Two", "Three", "One"]);
+});
+
+const useCompbinedHook = () => {
+  const context = useFormContext();
+  const listAttribute = useListAttribute("myList", () => "");
+
+  return { context, listAttribute };
+};
+
+it("will remove validation errors when removing an item", async () => {
+  const initialValues = { myList: ["One", ""] };
+  const errors = { "myList.1": ["Item cannot be blank"] };
+  const hook = renderHook(() => useCompbinedHook(), {
+    wrapper: ({ children }: any) => {
+      return (
+        <Form onSubmit={jest.fn} initialValues={initialValues} errors={errors}>
+          {children}
+        </Form>
+      );
+    },
+  });
+
+  expect(hook.result.current.context.firstError("myList.1")).toStrictEqual("Item cannot be blank");
+
+  await act(async () => {
+    hook.result.current.listAttribute.remove(1);
+  });
+
+  expect(hook.result.current.context.firstError("myList.1")).toBeUndefined();
 });

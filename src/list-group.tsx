@@ -2,7 +2,9 @@ import React, { FC } from "react";
 
 import { AttributeContextProvider, useAttributeContext } from "./attribute-context";
 import { BaseGroupProps } from "./base-group-props";
+import { useFormContext } from "./form-context";
 import { createUseAttributeHook } from "./use-attribute";
+import { ErrorBag } from "./validator";
 
 export interface ListGroupChildProps {
   /**
@@ -32,10 +34,19 @@ const defaultNewItem = () => ({});
  */
 const useArrayAttribute = createUseAttributeHook((value) => value);
 
+function removeErrors(setErrors: (errors: ErrorBag) => void, errors: ErrorBag, attribute: string) {
+  if (typeof errors[attribute] !== "undefined") {
+    const newErrors = { ...errors };
+    delete newErrors[attribute];
+    setErrors(newErrors);
+  }
+}
+
 /**
  * Hook that will to abstract all the list logic.
  */
 export function useListAttribute<T>(attribute: string, newItem: () => T) {
+  const { errors, setErrors } = useFormContext();
   const { id, error, value, set } = useArrayAttribute(attribute, []);
   const add = () => set([...value, newItem()]);
   const remove = (index: number) => {
@@ -45,6 +56,11 @@ export function useListAttribute<T>(attribute: string, newItem: () => T) {
       const newValue = [...value];
       newValue.splice(index, 1);
       set(newValue);
+
+      // Remove the attribute errors if there are any. This is so we don't
+      // leave errors on attributes we no longer have. This will make the form
+      // invalid and you will never be able to submit it.
+      removeErrors(setErrors, errors, `${attribute}.${index}`);
     }
   };
 
