@@ -19,6 +19,11 @@
     {
       "matchPackageNames": ["react", "react-dom", "@types/react", "@types/react-dom"],
       "groupName": "react packages"
+    },
+    {
+      "matchPackageNames": ["size-limit"],
+      "matchPackagePatterns": ["^@size-limit/"],
+      "groupName": "size-limit packages"
     }
   ]
 }
