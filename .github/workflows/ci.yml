@@ -28,7 +28,7 @@ jobs:
         run: yarn build --noEmit
 
       - name: Test & publish code coverage
-        uses: paambaati/codeclimate-action@v4.0.0
+        uses: paambaati/codeclimate-action@v5.0.0
         env:
           CC_TEST_REPORTER_ID: 8ebe93d320ffb11863c699cc0db2ab927e50d2f5b08a52ffaa240a63202ea48d
         with:
