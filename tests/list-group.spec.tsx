@@ -87,9 +87,9 @@ it("will reorder the items", async () => {
   expect(hook.result.current.value).toStrictEqual(["Two", "Three", "One"]);
 });
 
-const useCompbinedHook = () => {
+const useCompbinedHook = (attribute: string) => {
   const context = useFormContext();
-  const listAttribute = useListAttribute("myList", () => "");
+  const listAttribute = useListAttribute(attribute, () => "");
 
   return { context, listAttribute };
 };
@@ -97,7 +97,7 @@ const useCompbinedHook = () => {
 it("will remove validation errors when removing an item", async () => {
   const initialValues = { myList: ["One", ""] };
   const errors = { "myList.1": ["Item cannot be blank"] };
-  const hook = renderHook(() => useCompbinedHook(), {
+  const hook = renderHook(() => useCompbinedHook("myList"), {
     wrapper: ({ children }: any) => {
       return (
         <Form onSubmit={jest.fn} initialValues={initialValues} errors={errors}>
@@ -114,4 +114,26 @@ it("will remove validation errors when removing an item", async () => {
   });
 
   expect(hook.result.current.context.firstError("myList.1")).toBeUndefined();
+});
+
+it("will remove errors from nested items", async () => {
+  const initialValues = { myList: [{ name: "Testing" }, { name: "" }] };
+  const errors = { "myList.1.name": ["Item name cannot be blank"] };
+  const hook = renderHook(() => useCompbinedHook("myList"), {
+    wrapper: ({ children }: any) => {
+      return (
+        <Form onSubmit={jest.fn} initialValues={initialValues} errors={errors}>
+          {children}
+        </Form>
+      );
+    },
+  });
+
+  expect(hook.result.current.context.firstError("myList.1.name")).toStrictEqual("Item name cannot be blank");
+
+  await act(async () => {
+    hook.result.current.listAttribute.remove(1);
+  });
+
+  expect(hook.result.current.context.firstError("myList.1.name")).toBeUndefined();
 });

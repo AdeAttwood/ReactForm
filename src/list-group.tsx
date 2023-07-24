@@ -35,11 +35,14 @@ const defaultNewItem = () => ({});
 const useArrayAttribute = createUseAttributeHook((value) => value);
 
 function removeErrors(setErrors: (errors: ErrorBag) => void, errors: ErrorBag, attribute: string) {
-  if (typeof errors[attribute] !== "undefined") {
-    const newErrors = { ...errors };
-    delete newErrors[attribute];
-    setErrors(newErrors);
+  const newErrors = { ...errors };
+  for (const key of Object.keys(newErrors)) {
+    if (key.startsWith(attribute)) {
+      delete newErrors[key];
+    }
   }
+
+  setErrors(newErrors);
 }
 
 /**
