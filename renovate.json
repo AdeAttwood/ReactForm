@@ -4,10 +4,6 @@
   "lockFileMaintenance": { "enabled": true },
   "packageRules": [
     {
-      "matchPackageNames": ["node"],
-      "allowedVersions": "<=16"
-    },
-    {
       "matchPackageNames": ["ts-jest", "@types/jest"],
       "matchPackagePatterns": ["^jest", "^@testing-library/"],
       "groupName": "testing packages"
