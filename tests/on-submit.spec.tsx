@@ -2,7 +2,7 @@ import { cleanup, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import React from "react";
 
-import Form, { OnSubmitFunction } from "../src/form";
+import { Form, OnSubmitFunction } from "../src";
 import { useFormContext } from "../src/form-context";
 import Input from "./input-component";
 
@@ -15,7 +15,7 @@ it("will call onSubmit", async () => {
   const onSubmit: OnSubmitFunction = () => onSubmitMock();
 
   render(
-    <Form onSubmit={onSubmit}>
+    <Form initialValues={{}} onSubmit={onSubmit}>
       <Input attribute="test-input" />
       <button>Submit</button>
     </Form>
@@ -31,7 +31,7 @@ it("will set the errors from the onSubmit callback", async () => {
   };
 
   render(
-    <Form onSubmit={onSubmit}>
+    <Form initialValues={{}} onSubmit={onSubmit}>
       <Input attribute="test-input" />
       <button>Submit</button>
     </Form>
@@ -52,7 +52,7 @@ it("will set the status to clean if the errors are cleared", async () => {
   }
 
   render(
-    <Form onSubmit={onSubmit}>
+    <Form initialValues={{}} onSubmit={onSubmit}>
       <Input attribute="test-input" />
       <StatusComponent />
       <button>Submit</button>

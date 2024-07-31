@@ -1,8 +1,8 @@
 import React from "react";
 
-import Form from "./form";
+import { FormProvider } from "./form-provider";
 
-export type FormContextType<T extends {}> = ReturnType<Form<T>["getContextValue"]>;
+export type FormContextType<T extends {}> = ReturnType<FormProvider<T>["getContextValue"]>;
 
 /**
  * Create the base context that will hold all of the form data

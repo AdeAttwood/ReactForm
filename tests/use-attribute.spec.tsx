@@ -7,7 +7,11 @@ import { useAttribute, useBooleanAttribute, useStringAttribute } from "../src/us
 afterEach(cleanup);
 
 const wrapper: React.FC<React.PropsWithChildren> = ({ children }) => {
-  return <Form onSubmit={jest.fn}>{children}</Form>;
+  return (
+    <Form initialValues={{}} onSubmit={jest.fn}>
+      {children}
+    </Form>
+  );
 };
 
 it("useAttribute will mount and update the base attribute hook", () => {

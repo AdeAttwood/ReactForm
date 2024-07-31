@@ -12,7 +12,7 @@ it("will call onChange when a attribute is changed", async () => {
   const onSubmit = jest.fn();
 
   render(
-    <Form onChange={onChange} onSubmit={onSubmit}>
+    <Form initialValues={{}} onChange={onChange} onSubmit={onSubmit}>
       <Input attribute="test-input" />
     </Form>
   );

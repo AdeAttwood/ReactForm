@@ -10,7 +10,7 @@ it("will allow you to validate the form from the context", async () => {
 
   const { result } = renderHook(() => useFormContext(), {
     wrapper: ({ children }) => (
-      <Form onSubmit={onSubmit} validator={validator}>
+      <Form initialValues={{}} onSubmit={onSubmit} validator={validator}>
         {children}
       </Form>
     ),

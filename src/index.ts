@@ -3,6 +3,7 @@ export * from "./check-group";
 export * from "./dot-notation";
 export * from "./form";
 export * from "./form-context";
+export * from "./form-provider";
 export * from "./input-group";
 export * from "./list-group";
 export * from "./radio-group";
