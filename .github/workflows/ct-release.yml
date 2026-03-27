@@ -11,7 +11,7 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
-    container: practically/conventional-tools:1.x@sha256:647d6e4b3edfcbac6054b90f74d2c61a022152751b94484d54e13695a9e27377
+    container: practically/conventional-tools:1.x@sha256:a3e98697743d8801c694b92553da733aff0fbae6bf92876b13c92343a569f049
     env:
       CT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
